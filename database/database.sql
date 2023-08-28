@@ -25,3 +25,13 @@ CREATE TABLE BlogPost(
   FOREIGN KEY(user, groupname) REFERENCES BlogGroup(username, groupname) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
+DROP TABLE IF EXISTS BlogComment;
+CREATE TABLE BlogComment(
+  blog_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  commenter varchar(10) NOT NULL,
+  date_utc DATETIME NOT NULL,
+  body varchar(500) NOT NULL,
+
+  FOREIGN KEY(blog_id) REFERENCES BlogPost(id) ON UPDATE CASCADE ON DELETE CASCADE,
+  FOREIGN KEY(commenter) REFERENCES User(username) ON UPDATE CASCADE ON DELETE CASCADE
+);

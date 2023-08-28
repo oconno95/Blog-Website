@@ -1,5 +1,19 @@
 # Blog Website
 
+## Requirements
+* Create a blogging website
+* Alow users to sign up
+* Be able to write and publish blog posts
+* Interact with other users' posts through comments
+* Search for users, groups, or posts
+
+## Architecture
+* Web Server - Node JS
+* Database - MySQL
+  * User
+  * BlogGroup
+  * BlogPost
+  * BlogComment
 ## How To Use
 
 ### After Pulling From GitHub
