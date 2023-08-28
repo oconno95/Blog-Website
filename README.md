@@ -7,13 +7,30 @@
 * Interact with other users' posts through comments
 * Search for users, groups, or posts
 
-## Architecture
+## Architecture / Design
 * Web Server - Node JS
+  * Routes
+    * User
+      * Create
+      * Profile
+      * Login
+      * Delete
+    * Blog
+      * Search
+      * Groups
+      * Create
+      * Comment
+  * Dependencies
+    * mysql2
+    * express
+    * express-session
+    * multer
 * Database - MySQL
   * User
   * BlogGroup
   * BlogPost
   * BlogComment
+
 ## How To Use
 
 ### After Pulling From GitHub
