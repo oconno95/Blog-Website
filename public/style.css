@@ -8,7 +8,9 @@
     margin: auto;
 }
 .buttons * {
+    display: block;
     width: 100%;
+<<<<<<< HEAD
     margin: 10px;
 }
 
@@ -19,4 +21,7 @@
 }
 .formItems * {
     margin: 10px;
+=======
+    margin: 10px auto; /* top and bottom have margin of 10, button is automaically centered */
+>>>>>>> 22be5acff0929c42be02617fb60c31358d149712
 }
