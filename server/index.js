@@ -2,8 +2,24 @@ const express = require('express');
 const app = express();
 const port = 3000;
 
+/**** Configure Express JS ****/
+
+//EJS template engine
+app.set('views', './server/views'); //set directory where template engine will retrieve templates
+app.set('view engine', 'ejs'); // set template engine to EJS
+
+
+app.use(express.static("./public")); //set where static files are served
+
+
 app.get("/", (req, res) => {
-  res.send("<h1>Hello World!</h1>");
+  res.render("blog.ejs");
+});
+
+
+//very last middleware handles 404 errors
+app.use((req, res, next) => {
+  res.status(404).send("404 Error!");
 });
 
 app.listen(port, () => {
