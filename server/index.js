@@ -18,7 +18,7 @@ const {test} = require("./database.js");
 
 //routes
 app.get("/", (req, res) => {
-  res.render("blog.ejs");
+  res.render("home.ejs");
 });
 
 

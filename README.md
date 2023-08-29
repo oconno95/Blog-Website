@@ -22,6 +22,7 @@
       * Comment
   * Dependencies
     * mysql2
+    * ejs
     * express
     * express-session
     * multer
