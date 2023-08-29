@@ -7,6 +7,7 @@
     margin: auto;
 }
 .buttons * {
+    display: block;
     width: 100%;
-    margin: 10px;
+    margin: 10px auto; /* top and bottom have margin of 10, button is automaically centered */
 }
