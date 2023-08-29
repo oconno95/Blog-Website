@@ -21,6 +21,14 @@ app.get("/", (req, res) => {
   res.render("home.ejs");
 });
 
+app.get("/user/login", (req, res) => {
+  res.render("user/login.ejs");
+});
+
+app.get("/user/create", (req, res) => {
+  res.render("user/create.ejs");
+});
+
 
 //very last middleware handles 404 errors
 app.use((req, res, next) => {
