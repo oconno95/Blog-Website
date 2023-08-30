@@ -13,6 +13,9 @@ app.set('view engine', 'ejs'); // set template engine to EJS
 
 app.use(express.static("./public")); //set where static files are served
 
+app.use(express.json());
+app.use(express.urlencoded({extended: true}));
+
 //other imported files
 const {test} = require("./database.js");
 
