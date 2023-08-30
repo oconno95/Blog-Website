@@ -4,15 +4,18 @@
   <body>
     <div class="formItems">
         <h1>Create your Account</h1>
-        <form action="/">
+        <form action="/user/create" method="post">
             <label for="username">Username:</label>
-            <input type="text" id="username" name="username" required="true">
+            <br>
+            <input type="text" id="username" name="username" required="true" maxlength="10">
             <br><br>
             <label for="password1">Password:</label>
-            <input type="password" id="password1" name="password1" required="true">
+            <br>
+            <input type="password" id="password1" name="password1" required="true" maxlength="20">
             <br><br>
             <label for="password2">Confirm Password:</label>
-            <input type="password" id="password2" name="password2" required="true">
+            <br>
+            <input type="password" id="password2" name="password2" required="true" maxlength="20">
             <br><br>
             <input type="submit" value="Create Account">
         </form>

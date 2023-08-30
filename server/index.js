@@ -24,9 +24,15 @@ app.get("/", (req, res) => {
 app.get("/user/login", (req, res) => {
   res.render("user/login.ejs");
 });
+app.post("/user/login", (req, res) => {
+  console.log(req.body);
+});
 
 app.get("/user/create", (req, res) => {
   res.render("user/create.ejs");
+});
+app.post("/user/create", (req, res) => {
+  
 });
 
 
