@@ -1,17 +1,21 @@
 * {
     box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+    border: 0;
 }
 
 .header {
     width: 100%;
     height: 45px;
     padding: 0 2%;
-    background-color: rgb(134, 134, 204);
+    background-color: rgb(184, 184, 224);
     vertical-align: middle;
 }
 
 .name {
     text-align: center;
+    font-family: cursive;
 }
 
 .buttons {
@@ -22,7 +26,7 @@
 .buttons * {
     display: block;
     width: 100%;
-    margin: 20px auto;
+    padding: 1em;
 }
 
 .formItems {
@@ -32,4 +36,16 @@
 }
 .formItems * {
     margin: 10px auto; /* top and bottom have margin of 10, button is automaically centered */
+}
+
+input {
+    border: 1px solid black;
+    padding: 4px;
+}
+
+.search {
+    display: block;
+    width: fit-content;
+    margin: auto;
+    padding: 80px;
 }
