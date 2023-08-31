@@ -17,7 +17,7 @@ app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 
 //other imported files
-const {test} = require("./database.js");
+const {test, db} = require("./database.js");
 
 //routes
 app.get("/", (req, res) => {
@@ -55,6 +55,11 @@ app.use((req, res, next) => {
 app.listen(port, () => {
   console.log(`Web app runnin on port ${port}`);
 
-  test();
+  //quick test of Promise-based database driver
+  db.query("SHOW TABLES").then((res) => {
+    console.log(res);
+  }).catch((e) => {
+    console.error(e);
+  });
   
 });
