@@ -13,14 +13,32 @@ app.set('view engine', 'ejs'); // set template engine to EJS
 
 app.use(express.static("./public")); //set where static files are served
 
-app.use(express.json());
+//use this to read parameters from POST requests as JSON values
+app.use(express.json()); 
 app.use(express.urlencoded({extended: true}));
 
+// configure SESSION 
+app.use(require('express-session')({
+  secret: "in-development-so-secret-does-not-matter-right-now",
+
+  //used to remove warnings
+  resave: false,
+  saveUninitialized: false, //change to true later since this is good for logins
+
+  cookie: {
+    maxAge: 1000 * 60 * 60 * 24 * 365, // cookie is valid for 1 year
+    httpOnly: true,  //dont get cookies in Javascript
+    secure: false, //secure can only be set to true if using HTTPS
+  }
+
+}));
+
 //other imported files
-const {test, db} = require("./database.js");
+const {db} = require("./database.js");
 
 //routes
 app.get("/", (req, res) => {
+  console.log(req.session);
   res.render("home.ejs");
 });
 
