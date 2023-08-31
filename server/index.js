@@ -35,9 +35,15 @@ app.get("/user/create", (req, res) => {
   res.render("user/create.ejs");
 });
 app.post("/user/create", (req, res) => {
-  
+  console.log(req.body);
 });
 
+app.get("/blog/search", (req, res) => {
+  res.render("blog/search.ejs");
+});
+app.post("/blog/search", (req, res) => {
+  console.log(req.body);
+});
 
 //very last middleware handles 404 errors
 app.use((req, res, next) => {
