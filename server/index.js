@@ -1,6 +1,7 @@
 require('dotenv').config(); //add environment variables in .env file to process.env file
 
 const express = require('express');
+const crypto = require('node:crypto');
 const app = express();
 const port = 3000;
 
@@ -23,7 +24,7 @@ app.use(require('express-session')({
 
   //used to remove warnings
   resave: false,
-  saveUninitialized: false, //change to true later since this is good for logins
+  saveUninitialized: true, //change to true later so session data is only stored when data is actually put in session on login
 
   cookie: {
     maxAge: 1000 * 60 * 60 * 24 * 365, // cookie is valid for 1 year
@@ -52,8 +53,53 @@ app.post("/user/login", (req, res) => {
 app.get("/user/create", (req, res) => {
   res.render("user/create.ejs");
 });
-app.post("/user/create", (req, res) => {
-  console.log(req.body);
+app.post("/user/create", async (req, res) => {
+  const {username, password1, password2} = req.body;
+
+  //INPUT VALIDATION 
+  let errors = {};
+
+  if(username.length > 10) {
+    errors.username_err = "Your username must be 10 characters or less!";
+  }
+
+  if(password1 !== password2) {
+    errors.password_retype_err = "Your password does not match with your retyped password!";
+  }
+
+  if(password1.length < 8) {
+    errors.password_err = "Your password must be 8 characters or more!";
+  }
+
+  let errorFound = Object.keys(errors).length > 0;
+
+  //if there was an error, display error messages to create account page
+  if(errorFound) {
+    return res.render("user/create.ejs", {
+      username: username,
+      password1: password1,
+      password2: password2,
+      errors: errors
+    });
+  } 
+
+  //encrypt password
+  const salt = crypto.randomBytes(16);
+  let desiredHashSize = 64;
+  const encryptedPassword = crypto.scryptSync(password1, salt, desiredHashSize/2).toString('hex'); //must divide length by 2 when converting string to hex
+
+
+  //Add user to database
+  try {
+    await db.query("INSERT INTO User(username, pwd, pwd_salt, about) VALUES (?,?,?,'')", [username, encryptedPassword, salt]);
+
+    //TODO: Login user here
+    res.send("Account created successfully!");
+  } catch(e) {
+    console.error(e);
+    res.send("Failed to create account, please try again later!");
+  }
+
 });
 
 app.get("/blog/search", (req, res) => {
