@@ -15,15 +15,7 @@ const pool = mysql.createPool({
   keepAliveInitialDelay: 0
 });
 
-function test() {
-  pool.query("SHOW TABLES", (err, result) => {
-    if(err) {
-      console.error(err);
-    }
-    console.log(result);
-  });
-}
+const db = pool.promise();
 
 
-
-module.exports = {test};
+module.exports = {db};

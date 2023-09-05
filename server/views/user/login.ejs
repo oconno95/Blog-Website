@@ -12,7 +12,9 @@
             <label for="password">Password:</label>
             <br>
             <input type="password" id="password" name="password" required="true">
-            <br><br>
+            <br>
+            <small><%= hasOwnProperty("login_err") ? login_err : "" %></small>
+            <br>
             <input type="submit" value="Login">
         </form>
     </div>
