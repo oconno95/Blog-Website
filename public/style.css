@@ -95,6 +95,8 @@ textarea {
     padding: 4px;
     margin: 15px;
     border-radius: 10px;
+    overflow: clip;
+    word-wrap: break-word;
 }
 
 .search {

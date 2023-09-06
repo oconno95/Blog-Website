@@ -5,9 +5,10 @@
     <div class="blogView">
         <% for(var row of BlogData) { %>
             <div class="blogRow">
-                <h2><%= row.title %></h2> <%= row.date_utc %>
+                <h2><%= row.title %></h2>
+                <%= row.date_utc %>
                 <br>
-                <%= row.body %>
+                <p><%= row.body %></p>
             </div>
         <% } %>
     </div>
