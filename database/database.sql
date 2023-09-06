@@ -1,7 +1,12 @@
+-- Used to force table to be deleted even after a 'cannot drop table
+-- referenced by foreign key' error occurs 
+SET foreign_key_checks = 0; 
+
 DROP TABLE IF EXISTS User;
 CREATE TABLE User (
   username varchar(10) PRIMARY KEY,
-  pwd varchar(20) NOT NULL,
+  pwd varchar(64) NOT NULL,
+  pwd_salt varbinary(16) NOT NULL,
   about varchar(500) DEFAULT ""
 );
 
@@ -13,6 +18,11 @@ CREATE TABLE BlogGroup(
 );
 
 DROP TABLE IF EXISTS BlogPost;
+
+-- Set this back to 1 to ensure database checks foreign keys after this
+-- script finishes running
+SET foreign_key_checks = 1;
+
 CREATE TABLE BlogPost(
   id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
   user varchar(10) NOT NULL,

@@ -8,6 +8,11 @@
       <br>
     </div>
 
+    <% // if the username parameter was passed into EJS and is not null %>
+    <% if(hasOwnProperty("username") && username) { %> 
+       <h1 style="text-align: center; margin: 10px auto;">Logged In As: <%= username %></h1>
+    <% } %>
+
     <div class="buttons">
       <a href="/user/create">
         <button>Create Account</button>

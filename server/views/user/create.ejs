@@ -7,16 +7,27 @@
         <form action="/user/create" method="post">
             <label for="username">Username:</label>
             <br>
-            <input type="text" id="username" name="username" required="true" maxlength="10">
-            <br><br>
+            <input type="text" id="username" name="username" required="true" maxlength="10" value="<%= typeof username !== 'undefined' ? username : '' %>">
+            <br>
+            <% 
+              // To check for existance of nested property in JSON, you must check for the existance of ALL parents,
+              // otherwise, this EJS file will throw a TypeError and fail to run.
+              // Very annoying, but manageable for now by using hasOwnProperty
+            %>
+            <small><%= (hasOwnProperty("errors") && errors.hasOwnProperty("username_err")) ? errors.username_err : "" %></small>
+            <br>
             <label for="password1">Password:</label>
             <br>
-            <input type="password" id="password1" name="password1" required="true" maxlength="20">
-            <br><br>
+            <input type="password" id="password1" name="password1" required="true" maxlength="20" value="<%= typeof password1 !== 'undefined' ? password1 : '' %>">
+            <br>
+            <small><%= (hasOwnProperty("errors") && errors.hasOwnProperty("password_err")) ? errors.password_err : "" %></small>
+            <br>
             <label for="password2">Confirm Password:</label>
             <br>
-            <input type="password" id="password2" name="password2" required="true" maxlength="20">
-            <br><br>
+            <input type="password" id="password2" name="password2" required="true" maxlength="20" value="<%= typeof password2 !== 'undefined' ? password2 : '' %>">
+            <br>
+            <small><%= (hasOwnProperty("errors") && errors.hasOwnProperty("password_retype_err")) ? errors.password_retype_err : "" %></small>
+            <br>
             <input type="submit" value="Create Account">
         </form>
     </div>
