@@ -30,18 +30,53 @@
     border-radius: 10px;
 }
 
-.formItems {
+.userItems {
     display: block;
     width: 250px;
     margin: auto;
 }
-.formItems * {
+.userItems * {
     margin: 10px auto; /* top and bottom have margin of 10, button is automaically centered */
+}
+
+.createBlog {
+    display: block;
+    margin: 2%;
+}
+.createBlog * {
+    margin: 10px;
+}
+.createBlog input {
+    max-width: 1000px;
+    width: 100%;
+}
+.createBlog textarea {
+    width: 100%;
+    height: 30em;
+}
+.createBlog .button {
+    width: fit-content;
 }
 
 input {
     border: 1px solid black;
     padding: 4px;
+}
+textarea {
+    height: fit-content;
+    width: fit-content;
+    border: 1px solid black;
+    padding: 4px;
+}
+
+.blogView {
+    display: block;
+    margin: 2%;
+}
+.blogView * {
+    display: block;
+    width: 100%;
+    height: 200px;
 }
 
 .search {

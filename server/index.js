@@ -69,7 +69,7 @@ function hashAndSaltPassword(password, salt) {
  */
 async function tryLogin(username, password, session) {
   const [rows, fields] = await db.query("SELECT * FROM User WHERE username=?", [username]);
-
+  console.log(rows);
   //generate hash from password in the request
   const hashedPassword = hashAndSaltPassword(password, rows[0].pwd_salt).hash;
 
@@ -128,6 +128,13 @@ app.post("/user/login", async (req, res) => {
   if(!(await tryLogin(username, password, req.session))) {
     return res.render("user/login.ejs", {login_err: "Invalid Username or Password!"});
   }
+
+  //redirect to home page
+  res.redirect("/");
+});
+
+app.post("/user/logout", async (req, res) => {
+  logout(req.session);
 
   //redirect to home page
   res.redirect("/");
@@ -198,6 +205,29 @@ app.post("/user/create", async (req, res) => {
   }
 
 });
+
+app.get("/blog", async (req, res) => {
+  const [rows, fields] = await db.query("SELECT date_utc, title, body FROM BlogPost WHERE user=? ORDER BY date_utc desc", [req.session.username]);
+  console.log(rows);
+  res.render("blog/usersBlogs.ejs", {BlogData: rows});
+});
+
+app.get("/blog/create", (req, res) => {
+  res.render("blog/create.ejs");
+});
+app.post("/blog/create", async (req, res) => {
+  const {title, blogContent} = req.body;
+  try {
+    await db.query("INSERT INTO BlogPost(user, date_utc, title, body) VALUES (?,NOW(),?,?)", [req.session.username, title, blogContent]);
+    console.log(req.body);
+    res.send("Blog Posted!");
+  }
+  catch(e) {
+    console.error(e);
+    res.send("Blog Post Failed");
+  }
+});
+
 
 app.get("/blog/search", (req, res) => {
   res.render("blog/search.ejs");

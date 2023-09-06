@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+  <%- include('../partials/head.ejs', {title: "Bloggy: Blogs"}); %>
+  <body>
+    <div class="blogView">
+        <% for(var row of BlogData) { %>
+            <p>
+                <%= row.date_utc %>
+                <br>
+                <%= row.title %>
+                <br>
+                <%= row.body %>
+            </p>
+        <% } %>
+    </div>
+  </body>
+</html>

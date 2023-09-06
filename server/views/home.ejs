@@ -11,18 +11,35 @@
     <% // if the username parameter was passed into EJS and is not null %>
     <% if(hasOwnProperty("username") && username) { %> 
        <h1 style="text-align: center; margin: 10px auto;">Logged In As: <%= username %></h1>
+       <div class="buttons">
+        <a href="/blog">
+          <button>View your Blogs</button>
+        </a>
+        <a href="/blog/create">
+          <button>Write a Blog</button>
+        </a>
+        <a href="/blog/search">
+          <button>Search for a Blog</button>
+        </a>
+        <form method="post" action="/user/logout">
+          <button>Logout</button>
+        </form>
+      </div>
+    <% } 
+       else { %>
+        <div class="buttons">
+          <a href="/user/create">
+            <button>Create Account</button>
+          </a>
+          <a href="/user/login">
+            <button>Login</button>
+          </a>
+          <a href="/blog/search">
+            <button>Search for a Blog</button>
+          </a>
+        </div>
     <% } %>
 
-    <div class="buttons">
-      <a href="/user/create">
-        <button>Create Account</button>
-      </a>
-      <a href="/user/login">
-        <button>Login</button>
-      </a>
-      <a href="/blog/search">
-        <button>Search for a Blog!</button>
-      </a>
-    </div>
+    
   </body>
 </html>
