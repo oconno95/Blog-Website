@@ -71,12 +71,15 @@ textarea {
 
 .blogView {
     display: block;
-    margin: 2%;
 }
-.blogView * {
+.blogView .blogRow {
     display: block;
-    width: 100%;
+    width: 95%;
     height: 200px;
+    border: 1px solid black;
+    padding: 4px;
+    margin: 15px;
+    border-radius: 10px;
 }
 
 .search {

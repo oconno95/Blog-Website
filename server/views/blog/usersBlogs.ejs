@@ -4,13 +4,11 @@
   <body>
     <div class="blogView">
         <% for(var row of BlogData) { %>
-            <p>
-                <%= row.date_utc %>
-                <br>
-                <%= row.title %>
+            <div class="blogRow">
+                <h2><%= row.title %></h2> <%= row.date_utc %>
                 <br>
                 <%= row.body %>
-            </p>
+            </div>
         <% } %>
     </div>
   </body>
