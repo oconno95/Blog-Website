@@ -200,7 +200,7 @@ app.post("/user/create", async (req, res) => {
 });
 
 app.get("/blog/search", (req, res) => {
-  res.render("blog/search.ejs");
+  res.render("blog/search_results.ejs");
 });
 app.post("/blog/search", (req, res) => {
   console.log(req.body);
