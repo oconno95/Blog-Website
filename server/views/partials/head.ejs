@@ -3,10 +3,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="The absolute best blogging site created by Ryan and David">
     <link rel="stylesheet" href="/style.css">
+    <% // Use typeof instead of hasOwnProperty %>
+    <% if(typeof stylesheets !== "undefined" && stylesheets) {
+        for (let sheet of stylesheets) { %>
+            <link rel="stylesheet" href="<%= sheet %>"> 
+    <%  } 
+    } %>
+
 </head>
-<header>
-    <div class="header">
-        <h1>Bloggy</h1>
-    </div>
+<header class="header">
+    <a class="title" href="/"><h1>Bloggy</h1></a>
+    <form class="search_blog" action="/blog/search" method="get">
+        <input type="search" id="search_query" name="search_query" required="true">
+        <input type="submit" value="Search">
+    </form>
 </header>
     

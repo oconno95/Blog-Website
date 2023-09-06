@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html>
-  <%- include('partials/head.ejs', {title: "Bloggy"}); %>
+  <%- include('partials/head.ejs', {title: "Bloggy", stylesheets: ["/home.css"]}); %>
   <body>
     <div class="name">
       <br>
@@ -40,6 +40,13 @@
         </div>
     <% } %>
 
-    
+    <div class="buttons">
+      <a href="/user/create">
+        <button>Create Account</button>
+      </a>
+      <a href="/user/login">
+        <button>Login</button>
+      </a>
+    </div>
   </body>
 </html>
