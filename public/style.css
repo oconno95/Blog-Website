@@ -98,6 +98,16 @@ textarea {
     overflow: clip;
     word-wrap: break-word;
 }
+.blogView .individual {
+    display: block;
+    width: 95%;
+    height: max-content;
+    border: 1px solid black;
+    padding: 4px;
+    margin: 15px;
+    border-radius: 10px;
+    word-wrap: break-word;
+}
 
 .search {
     display: block;

@@ -2,7 +2,7 @@
 
 ## Requirements
 * Create a blogging website
-* Alow users to sign up
+* Allow users to sign up
 * Be able to write and publish blog posts
 * Interact with other users' posts through comments
 * Search for users, groups, or posts

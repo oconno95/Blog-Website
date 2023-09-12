@@ -117,7 +117,7 @@ function logout(session) {
 app.get("/", (req, res) => {
   res.render("home.ejs", {username: req.session.username});
 });
-
+// USER --------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 app.get("/user/login", (req, res) => {
   res.render("user/login.ejs");
 });
@@ -205,11 +205,16 @@ app.post("/user/create", async (req, res) => {
   }
 
 });
-
+// BLOG --------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 app.get("/blog", async (req, res) => {
-  const [rows, fields] = await db.query("SELECT date_utc, title, body FROM BlogPost WHERE user=? ORDER BY date_utc desc", [req.session.username]);
+  const [rows, fields] = await db.query("SELECT id, date_utc, title, body FROM BlogPost WHERE user=? ORDER BY date_utc desc", [req.session.username]);
   console.log(rows);
   res.render("blog/usersBlogs.ejs", {BlogData: rows});
+});
+
+app.get("/blog/id/^[0-9]+$", async (req, res) => {
+  const blogData = await db.query("SELECT date_utc, title, body FROM BlogPost WHERE id=?", [req.session.id]);
+  res.render("blog/view.ejs", {BlogData: blogData});
 });
 
 app.get("/blog/create", (req, res) => {
@@ -228,7 +233,6 @@ app.post("/blog/create", async (req, res) => {
   }
 });
 
-
 app.get("/blog/search", (req, res) => {
   res.render("blog/search_results.ejs");
 });
@@ -242,7 +246,7 @@ app.use((req, res, next) => {
 });
 
 
-//start web server
+//start web server ---------------------------------------------------------------------------------------------------------------------------------------------------------------
 app.listen(port, () => {
   console.log(`Web app runnin on port ${port}`);
 
@@ -252,5 +256,4 @@ app.listen(port, () => {
   }).catch((e) => {
     console.error(e);
   });
-  
 });
