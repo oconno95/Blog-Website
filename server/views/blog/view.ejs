@@ -3,10 +3,10 @@
   <%- include('../partials/head.ejs', {title: "Bloggy"}); %>
   <body>
     <div class="blogView"><div class="individual">
-        <h2><%= row.title %></h2>
-        <%= row.date_utc %>
+        <h2><%= blog.title %></h2>
+        <%= blog.date_utc %>
         <br>
-        <p><%= row.body %></p>
+        <p><%= blog.body %></p>
     </div></div>
   </body>
 </html>

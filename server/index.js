@@ -212,14 +212,26 @@ app.get("/blog", async (req, res) => {
   res.render("blog/usersBlogs.ejs", {BlogData: rows});
 });
 
-app.get("/blog/id/^[0-9]+$", async (req, res) => {
-  const blogData = await db.query("SELECT date_utc, title, body FROM BlogPost WHERE id=?", [req.session.id]);
-  res.render("blog/view.ejs", {BlogData: blogData});
+//the :id in the route is a route parameter (see https://expressjs.com/en/guide/routing.html#route-parameters)
+// Ex: When the user visits /blog/id/3, the "3" is stored in the req.params.id variable so you can retrieve the 
+// blog post with an id of 3.
+app.get("/blog/id/:id", async (req, res) => {
+  const blogId = req.params.id; //access :id through req.params
+
+  //Note that db.query returns an array with 2 elements: a "rows" array and a "fields" array.
+  //The "rows" array will contain 0 to many rows of data. The "fields" array 
+  //is almost useless for what we're doing, since it only lists the columns accessed
+  const [rows, fields] = await db.query("SELECT date_utc, title, body FROM BlogPost WHERE id=?", [blogId]);
+
+
+  //use rows[0] because there should only ever be 1 element when asking for an existing blog post
+  res.render("blog/view.ejs", {blog: rows[0]});
 });
 
 app.get("/blog/create", (req, res) => {
   res.render("blog/create.ejs");
 });
+
 app.post("/blog/create", async (req, res) => {
   const {title, blogContent} = req.body;
   try {

@@ -5,7 +5,8 @@
     <div class="blogView">
         <% for(var row of BlogData) { %>
             <div class="blogRow">
-              <h2><a href="/blog/id/" + <%= row.id %>>  <%= row.title %>  </a></h2>
+              <!-- Append row.id to URL so that the user can be redirected to the correct blog post -->
+              <h2><a href="/blog/id/<%= row.id %>">  <%= row.title %>  </a></h2>
                 <%= row.date_utc %>
                 <br>
                 <p><%= row.body %></p>
