@@ -88,9 +88,9 @@ textarea {
     display: block;
 }
 .blogView .blogRow {
-    display: block;
     width: 95%;
-    height: 200px;
+    height: auto;
+    max-height: 200px;
     border: 1px solid black;
     padding: 4px;
     margin: 15px;
@@ -99,7 +99,6 @@ textarea {
     word-wrap: break-word;
 }
 .blogView .individual {
-    display: block;
     width: 95%;
     height: max-content;
     border: 1px solid black;
@@ -107,6 +106,9 @@ textarea {
     margin: 15px;
     border-radius: 10px;
     word-wrap: break-word;
+}
+.blogView p{
+    white-space: pre-wrap;
 }
 
 .search {

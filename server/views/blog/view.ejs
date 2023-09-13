@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html>
-  <%- include('../partials/head.ejs', {title: "Bloggy"}); %>
+  <%- include('../partials/head.ejs', {title: "Bloggy" }); %>
   <body>
     <div class="blogView"><div class="individual">
         <h2><%= blog.title %></h2>
-        <%= blog.date_utc %>
+        <i><%= blog.date_utc %></i>
         <br>
         <p><%= blog.body %></p>
     </div></div>
