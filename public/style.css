@@ -107,6 +107,19 @@ textarea {
     border-radius: 10px;
     word-wrap: break-word;
 }
+
+.blogView .titleLine {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+.smallButtons button {
+    display: inline-block;
+    width: fit-content;
+    border: 1px solid black;
+    padding: 2px 7px;
+    border-radius: 5px;
+}
 .blogView p{
     white-space: pre-wrap;
 }
