@@ -208,8 +208,9 @@ app.post("/user/create", async (req, res) => {
 // BLOG --------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 app.get("/blog", async (req, res) => {
   const [rows, fields] = await db.query("SELECT id, date_utc, title, body FROM BlogPost WHERE user=? ORDER BY date_utc desc", [req.session.username]);
+  const user = req.session.username;
   console.log(rows);
-  res.render("blog/usersBlogs.ejs", {BlogData: rows});
+  res.render("blog/usersBlogs.ejs", {BlogData: rows, User: user});
 });
 
 //the :id in the route is a route parameter (see https://expressjs.com/en/guide/routing.html#route-parameters)
