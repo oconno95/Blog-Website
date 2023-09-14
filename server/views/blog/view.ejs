@@ -5,14 +5,16 @@
     <div class="blogView"><div class="individual">
       <div class="titleLine">
         <h2><%= blog.title %></h2>
-        <div class="smallButtons">
-          <a>
-            <button>Edit</button>
-          </a>
-          <a>
-            <button>Delete</button>
-          </a>
-        </div>
+          <% if(hasOwnProperty("User") && User == blog.user) { %> 
+            <div class="smallButtons">
+              <a>
+                <button>Edit</button>
+              </a>
+              <a>
+                <button>Delete</button>
+              </a>
+            </div>
+          <% } %> 
       </div>
       <i><%= blog.date_utc %></i>
       <br>
