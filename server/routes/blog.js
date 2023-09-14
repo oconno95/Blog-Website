@@ -1,0 +1,57 @@
+const express = require('express');
+const router = express.Router();
+
+const path = require('path');
+
+//other imported files
+const {db} = require(path.resolve(process.cwd(), "./server/utils/database.js"));
+
+router.get("/", async (req, res) => {
+  const [rows, fields] = await db.query("SELECT id, date_utc, title, body FROM BlogPost WHERE user=? ORDER BY date_utc desc", [req.session.username]);
+  const user = req.session.username;
+  console.log(rows);
+  res.render("blog/usersBlogs.ejs", {BlogData: rows, User: user});
+});
+
+//the :id in the route is a route parameter (see https://expressjs.com/en/guide/routing.html#route-parameters)
+// Ex: When the user visits /blog/id/3, the "3" is stored in the req.params.id variable so you can retrieve the 
+// blog post with an id of 3.
+router.get("/id/:id", async (req, res) => {
+  const blogId = req.params.id; //access :id through req.params
+
+  //Note that db.query returns an array with 2 elements: a "rows" array and a "fields" array.
+  //The "rows" array will contain 0 to many rows of data. The "fields" array 
+  //is almost useless for what we're doing, since it only lists the columns accessed
+  const [rows, fields] = await db.query("SELECT date_utc, title, body FROM BlogPost WHERE id=?", [blogId]);
+
+
+  //use rows[0] because there should only ever be 1 element when asking for an existing blog post
+  res.render("blog/view.ejs", {blog: rows[0]});
+});
+
+router.get("/create", (req, res) => {
+  res.render("blog/create.ejs");
+});
+
+router.post("/create", async (req, res) => {
+  const {title, blogContent} = req.body;
+  try {
+    await db.query("INSERT INTO BlogPost(user, date_utc, title, body) VALUES (?,NOW(),?,?)", [req.session.username, title, blogContent]);
+    console.log(req.body);
+    res.send("Blog Posted!");
+  }
+  catch(e) {
+    console.error(e);
+    res.send("Blog Post Failed");
+  }
+});
+
+router.get("/search", (req, res) => {
+  res.render("blog/search_results.ejs");
+});
+
+router.post("/search", (req, res) => {
+  console.log(req.body);
+});
+
+module.exports = router;
