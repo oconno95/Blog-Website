@@ -46,12 +46,17 @@ router.post("/create", async (req, res) => {
   }
 });
 
-router.get("/search", (req, res) => {
-  res.render("blog/search_results.ejs");
+router.get("/search", async (req, res) => {
+  if(req.query.filter_by === 'user') {
+    const [rows, fields] = await db.query(`SELECT * FROM User WHERE username LIKE CONCAT('%',?,'%')`, [req.query.search_query]);
+    res.render("blog/search_results_user", {rows: rows});
+    return;
+  } 
+
+  const [rows, fields] = await db.query(`SELECT * FROM BlogPost WHERE title LIKE CONCAT('%',?,'%') OR groupname LIKE CONCAT('%',?,'%')`, [req.query.search_query, req.query.search_query]);
+  res.render("blog/search_results", {rows: rows});
+  
 });
 
-router.post("/search", (req, res) => {
-  console.log(req.body);
-});
 
 module.exports = router;

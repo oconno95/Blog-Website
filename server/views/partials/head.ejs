@@ -15,6 +15,14 @@
     <a class="title" href="/"><h1>Bloggy</h1></a>
     <form class="search_blog" action="/blog/search" method="get">
         <input type="search" id="search_query" name="search_query" required="true">
+
+        Filter by:
+        <input type="radio" id="user" name="filter_by" value='user' checked>
+        <label for="user">User</label>
+
+        <input type="radio" id="title" name="filter_by" value="title">
+        <label for="title">Blog</label>
+
         <input type="submit" value="Search">
     </form>
 </header>
