@@ -73,6 +73,22 @@
     width: fit-content;
 }
 
+.createComment {
+    display: block;
+    margin: 2%;
+}
+.createComment input {
+    max-width: 1000px;
+    width: 100%;
+}
+.createComment textarea {
+    width: 100%;
+    height: 10em;
+}
+.createComment .button {
+    width: fit-content;
+}
+
 input {
     border: 1px solid black;
     padding: 4px;

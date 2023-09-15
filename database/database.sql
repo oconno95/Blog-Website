@@ -37,7 +37,7 @@ CREATE TABLE BlogPost(
 
 DROP TABLE IF EXISTS BlogComment;
 CREATE TABLE BlogComment(
-  blog_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  blog_id INT(5) NOT NULL,
   commenter varchar(10) NOT NULL,
   date_utc DATETIME NOT NULL,
   body varchar(500) NOT NULL,

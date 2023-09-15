@@ -20,5 +20,26 @@
       <br>
       <p><%= blog.body %></p>
     </div></div>
+
+    <div class="createComment">
+      <h1>Write a Comment</h1>
+      <form action="/blog/comment" method="post">
+        <textarea name="blogComment" id="blogComment" required="true"></textarea>
+        <br>
+        <input class="button" type="submit" value="Comment">
+      </form>
+    </div>
+    
+    <div class="blogView">
+      <h1>Comments</h1>
+      <% for(var row of CommentData) { %>
+        <div class="blogRow">
+          <p><%= row.commenter %></p>
+          <i><%= row.date_utc %></i>
+          <br>
+          <p><%= row.body %></p>
+        </div>
+      <% } %>
+    </div>
   </body>
 </html>

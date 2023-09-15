@@ -1,17 +1,17 @@
 <!DOCTYPE html>
 <html>
-  <%- include('../partials/head.ejs', {title: "Bloggy: " + User}); %>
+  <%- include('../partials/head.ejs', {title: "Bloggy: " + BlogData[0].user}); %>
   <body>
     <div class="blogView">
-        <% for(var row of BlogData) { %>
-            <div class="blogRow">
-              <!-- Append row.id to URL so that the user can be redirected to the correct blog post -->
-              <h2><a href="/blog/id/<%= row.id %>">  <%= row.title %>  </a></h2>
-                <i><%= row.date_utc %></i>
-                <br>
-                <p><%= row.body %></p>
-            </div>
-        <% } %>
+      <% for(var row of BlogData) { %>
+          <div class="blogRow">
+            <!-- Append row.id to URL so that the user can be redirected to the correct blog post -->
+            <h2><a href="/blog/id/<%= row.id %>">  <%= row.title %>  </a></h2>
+              <i><%= row.date_utc %></i>
+              <br>
+              <p><%= row.body %></p>
+          </div>
+      <% } %>
     </div>
   </body>
 </html>
