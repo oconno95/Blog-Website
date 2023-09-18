@@ -50,7 +50,6 @@ app.get("/", (req, res) => {
 });
 
 app.use('/user', userRoute);
-
 app.use('/blog', blogRoute);
 
 //very last middleware handles 404 errors

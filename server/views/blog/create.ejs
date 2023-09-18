@@ -3,18 +3,18 @@
   <%- include('../partials/head.ejs', {title: "Bloggy: Write Blog"}); %>
   <body>
     <div class="createBlog">
-        <h1>Write a blog</h1>
-        <form action="/blog/create" method="post">
-            <label for="title">Title:</label>
-            <br>
-            <input type="text" id="title" name="title" required="true">
-            <br>
-            <label for="blogContent">Blog Content:</label>
-            <br>
-            <textarea name="blogContent" id="blogContent" required="true"></textarea>
-            <br>
-            <input class="button" type="submit" value="Publish Blog">
-        </form>
+      <h1>Write a blog</h1>
+      <form action="/blog/create" method="post">
+        <label for="title">Title:</label>
+        <br>
+        <input type="text" id="title" name="title" required="true">
+        <br>
+        <label for="blogContent">Blog Content:</label>
+        <br>
+        <textarea name="blogContent" id="blogContent" required="true"></textarea>
+        <br>
+        <input class="button" type="submit" value="Publish Blog">
+      </form>
     </div>
   </body>
 </html>
