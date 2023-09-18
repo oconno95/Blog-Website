@@ -14,8 +14,8 @@ router.get("/", async (req, res) => {
 });
 
 router.get("/user/:user", async (req, res) => {
+  const username = req.params.user;
   const [rows, fields] = await db.query("SELECT id, user, date_utc, title, body FROM BlogPost WHERE user=? ORDER BY date_utc desc", [req.params.user]);
-  const username = req.session.username;
   console.log(rows);
   res.render("blog/usersBlogs.ejs", {BlogData: rows, User: username});
 });
@@ -29,12 +29,13 @@ router.get("/id/:id", async (req, res) => {
   //Note that db.query returns an array with 2 elements: a "rows" array and a "fields" array.
   //The "rows" array will contain 0 to many rows of data. The "fields" array 
   //is almost useless for what we're doing, since it only lists the columns accessed
-  const [rows, fields] = await db.query("SELECT id, date_utc, user, title, body FROM BlogPost WHERE id=?", [blogId]);
+  const [rows, fields] = await db.query("SELECT * FROM BlogPost WHERE id=?", [blogId]);
   const [comments, elements] = await db.query("SELECT * FROM BlogComment WHERE blog_id=?", [blogId]);
   const username = req.session.username;
   console.log(username);
   //use rows[0] because there should only ever be 1 element when asking for an existing blog post
-  res.render("blog/view.ejs", {blog: rows[0], User: username, CommentData: comments, BlogId: blogId});
+  res.render("blog/view.ejs", {blog: rows[0], User: username, CommentData: comments});
+
 });
 
 router.get("/create", (req, res) => {
@@ -45,7 +46,6 @@ router.post("/create", async (req, res) => {
   const {title, blogContent} = req.body;
   try {
     await db.query("INSERT INTO BlogPost(user, date_utc, title, body) VALUES (?,NOW(),?,?)", [req.session.username, title, blogContent]);
-    console.log(req.body);
     res.send("Blog Posted!");
   }
   catch(e) {
@@ -115,7 +115,6 @@ router.post("/comment", async (req, res) => {
   const {blogId, blogComment} = req.body;
   try {
     await db.query("INSERT INTO BlogComment(blog_id, commenter, date_utc, body) VALUES (?,?,NOW(),?)", [blogId, req.session.username, blogComment]);
-    console.log(req.body);
     res.send("Comment Posted!");
   }
   catch(e) {
@@ -123,8 +122,5 @@ router.post("/comment", async (req, res) => {
     res.send("Comment Failed");
   }
 });
-
-
-
 
 module.exports = router;
