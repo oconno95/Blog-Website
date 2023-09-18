@@ -11,9 +11,7 @@
         <br>
         <label for="blogContent">Blog Content:</label>
         <br>
-        <textarea name="blogContent" id="blogContent" required="true">
-          <%= typeof body !== "undefined" ? body : "" %>
-        </textarea>
+        <textarea name="blogContent" id="blogContent" required="true"><%= typeof body !== "undefined" ? body : "" %></textarea>
         <br>
         <% if(typeof isEditing !== "undefined") { %>
           <input type="hidden" value="<%= blogId %>" name="blogId">
@@ -21,5 +19,11 @@
         <input class="button" type="submit" value="Publish Blog">
       </form>
     </div>
+
+    <% if(hasOwnProperty("error") && error) { %>
+      <script>
+        alert("Failed to Create Blog");
+      </script>
+    <% } %>
   </body>
 </html>

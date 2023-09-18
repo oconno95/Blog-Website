@@ -45,12 +45,12 @@ router.get("/create", (req, res) => {
 router.post("/create", async (req, res) => {
   const {title, blogContent} = req.body;
   try {
-    await db.query("INSERT INTO BlogPost(user, date_utc, title, body) VALUES (?,NOW(),?,?)", [req.session.username, title, blogContent]);
-    res.send("Blog Posted!");
+    let [result, fields] = await db.query("INSERT INTO BlogPost(user, date_utc, title, body) VALUES (?,NOW(),?,?)", [req.session.username, title, blogContent]);
+    res.redirect(`/blog/id/${result.insertId}`)
   }
   catch(e) {
     console.error(e);
-    res.send("Blog Post Failed");
+    res.render("blog/create.ejs", {title: title, body: blogContent, error: true});
   }
 });
 
@@ -74,16 +74,14 @@ router.post("/edit", async (req, res) => {
   const {title, blogContent} = req.body;
   let blogId = req.body.blogId;
 
-
   //returns [ResultSetHeader, undefined] for UPDATE SQL statements
   let [resultHeader, fields] = await db.query("UPDATE BlogPost SET title=?, body=?, date_utc=NOW() WHERE id=? AND user=?", [title, blogContent, blogId, req.session.username]);
-
   
   if(resultHeader.affectedRows == 0) {
     return res.send("Failed to edit post");
   }
   
-  res.send("Blog Post Edited!");
+  res.redirect(`/blog/id/${blogId}`)
 });
 
 router.post("/delete", async (req, res) => {
