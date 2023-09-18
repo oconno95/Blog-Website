@@ -29,12 +29,12 @@ router.get("/id/:id", async (req, res) => {
   //Note that db.query returns an array with 2 elements: a "rows" array and a "fields" array.
   //The "rows" array will contain 0 to many rows of data. The "fields" array 
   //is almost useless for what we're doing, since it only lists the columns accessed
-  const [rows, fields] = await db.query("SELECT date_utc, user, title, body FROM BlogPost WHERE id=?", [blogId]);
+  const [rows, fields] = await db.query("SELECT * FROM BlogPost WHERE id=?", [blogId]);
   const [comments, elements] = await db.query("SELECT * FROM BlogComment WHERE blog_id=?", [blogId]);
   const username = req.session.username;
   console.log(username);
   //use rows[0] because there should only ever be 1 element when asking for an existing blog post
-  res.render("blog/view.ejs", {blog: rows[0], User: username}, {CommentData: comments, BlogId: blogId});
+  res.render("blog/view.ejs", {blog: rows[0], User: username, CommentData: comments});
 });
 
 router.get("/create", (req, res) => {
