@@ -5,19 +5,19 @@
     <div class="blogView"><div class="individual">
       <div class="titleLine">
         <h2><%= blog.title %></h2>
-          <% if(hasOwnProperty("User") && User == blog.user) { %> 
-            <div class="smallButtons">
-              <a>
-                <button>Edit</button>
-              </a>
-              <a>
-                <button>Delete</button>
-              </a>
-            </div>
-          <% } %> 
+        <% if(hasOwnProperty("User") && User == blog.user) { %> 
+          <div class="smallButtons">
+            <a>
+              <button>Edit</button>
+            </a>
+            <a>
+              <button>Delete</button>
+            </a>
+          </div>
+        <% } %> 
       </div>
       <i><%= blog.date_utc %></i>
-      <br>
+      <br><br>
       <p><%= blog.body %></p>
     </div></div>
 
@@ -36,7 +36,19 @@
     <div class="blogView">
       <% for(var row of CommentData) { %>
         <div class="blogRow">
-          <p><%= row.commenter %></p>
+          <div class="titleLine">
+            <h3><%= row.commenter %></h3>
+            <% if(hasOwnProperty("User") && User == row.commenter) { %> 
+              <div class="smallButtons">
+                <a>
+                  <button>Edit</button>
+                </a>
+                <a>
+                  <button>Delete</button>
+                </a>
+              </div>
+            <% } %>
+          </div>
           <i><%= row.date_utc %></i>
           <br>
           <p><%= row.body %></p>
