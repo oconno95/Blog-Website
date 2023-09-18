@@ -24,7 +24,7 @@ DROP TABLE IF EXISTS BlogPost;
 SET foreign_key_checks = 1;
 
 CREATE TABLE BlogPost(
-  id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  id INT(5) NOT NULL AUTO_INCREMENT PRIMARY KEY,
   user varchar(10) NOT NULL,
   date_utc DATETIME NOT NULL,
   title varchar(100) NOT NULL,
@@ -37,6 +37,7 @@ CREATE TABLE BlogPost(
 
 DROP TABLE IF EXISTS BlogComment;
 CREATE TABLE BlogComment(
+  comment_id INT(5) NOT NULL AUTO_INCREMENT PRIMARY KEY,
   blog_id INT(5) NOT NULL,
   commenter varchar(10) NOT NULL,
   date_utc DATETIME NOT NULL,

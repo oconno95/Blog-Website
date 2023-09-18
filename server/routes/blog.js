@@ -35,6 +35,7 @@ router.get("/id/:id", async (req, res) => {
   console.log(username);
   //use rows[0] because there should only ever be 1 element when asking for an existing blog post
   res.render("blog/view.ejs", {blog: rows[0], User: username, CommentData: comments});
+
 });
 
 router.get("/create", (req, res) => {
@@ -53,6 +54,51 @@ router.post("/create", async (req, res) => {
   }
 });
 
+router.get("/edit", async (req, res) => {
+  let blogId = req.query.blogId; //because this is a GET request
+
+  let [rows, fields] = await db.query("SELECT user, title, body FROM BlogPost WHERE id=?", blogId);
+
+  if(rows.length == 0) {
+    res.send("No blog post with that id!");
+  }
+
+  if(rows[0].user !== req.session.username) {
+    return res.status(401).send("Unauthorized");
+  }
+
+  res.render("blog/create.ejs", {isEditing: true, title: rows[0].title, body: rows[0].body, blogId: blogId});
+});
+
+router.post("/edit", async (req, res) => {
+  const {title, blogContent} = req.body;
+  let blogId = req.body.blogId;
+
+
+  //returns [ResultSetHeader, undefined] for UPDATE SQL statements
+  let [resultHeader, fields] = await db.query("UPDATE BlogPost SET title=?, body=?, date_utc=NOW() WHERE id=? AND user=?", [title, blogContent, blogId, req.session.username]);
+
+  
+  if(resultHeader.affectedRows == 0) {
+    return res.send("Failed to edit post");
+  }
+  
+  res.send("Blog Post Edited!");
+});
+
+router.post("/delete", async (req, res) => {
+  const blogId = req.body.blogId;
+
+  //returns [ResultSetHeader, undefined] for UPDATE SQL statements
+  let [resultHeader, fields] = await db.query("DELETE FROM BlogPost WHERE id=? AND user=?", [blogId, req.session.username]);
+
+  if(resultHeader.affectedRows == 0) {
+    return res.send("Failed to delete post");
+  }
+
+  res.send("Blog Post Deleted!")
+  
+});
 
 router.get("/search", async (req, res) => {
   if(req.query.filter_by === 'user') {
@@ -63,18 +109,6 @@ router.get("/search", async (req, res) => {
 
   const [rows, fields] = await db.query(`SELECT * FROM BlogPost WHERE title LIKE CONCAT('%',?,'%') OR groupname LIKE CONCAT('%',?,'%')`, [req.query.search_query, req.query.search_query]);
   res.render("blog/search_results", {rows: rows});
-});
-  
-router.post("/comment", async (req, res) => {
-  const {blogId, blogComment} = req.body;
-  try {
-    await db.query("INSERT INTO BlogComment(blog_id, commenter, date_utc, body) VALUES (?,?,NOW(),?)", [blogId, req.session.username, blogComment]);
-    res.send("Comment Posted!");
-  }
-  catch(e) {
-    console.error(e);
-    res.send("Comment Failed");
-  }
 });
 
 module.exports = router;

@@ -4,15 +4,20 @@
   <body>
     <div class="createBlog">
       <h1>Write a blog</h1>
-      <form action="/blog/create" method="post">
+      <form action="<%= (typeof isEditing !== "undefined" && isEditing) ? "/blog/edit" : "/blog/create" %>" method="post">
         <label for="title">Title:</label>
         <br>
-        <input type="text" id="title" name="title" required="true">
+        <input type="text" id="title" name="title" required="true" value="<%= typeof title !== "undefined" ? title : "" %>">
         <br>
         <label for="blogContent">Blog Content:</label>
         <br>
-        <textarea name="blogContent" id="blogContent" required="true"></textarea>
+        <textarea name="blogContent" id="blogContent" required="true">
+          <%= typeof body !== "undefined" ? body : "" %>
+        </textarea>
         <br>
+        <% if(typeof isEditing !== "undefined") { %>
+          <input type="hidden" value="<%= blogId %>" name="blogId">
+        <% } %>
         <input class="button" type="submit" value="Publish Blog">
       </form>
     </div>

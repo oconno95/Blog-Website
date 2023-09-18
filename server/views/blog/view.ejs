@@ -5,16 +5,17 @@
     <div class="blogView"><div class="individual">
       <div class="titleLine">
         <h2><%= blog.title %></h2>
-        <% if(hasOwnProperty("User") && User == blog.user) { %> 
-          <div class="smallButtons">
-            <a>
-              <button>Edit</button>
-            </a>
-            <a>
-              <button>Delete</button>
-            </a>
-          </div>
-        <% } %> 
+          <% if(hasOwnProperty("User") && User == blog.user) { %> 
+            <div class="smallButtons">
+              <a href="/blog/edit?blogId=<%= blog.id %>">
+                <button>Edit</button>
+              </a>
+              <form action="/blog/delete" method="post">
+                <input type="hidden" name="blogId" value="<%= blog.id %>">
+                <button>Delete</button>
+              </form>
+            </div>
+          <% } %> 
       </div>
       <i><%= blog.date_utc %></i>
       <br><br>
@@ -38,14 +39,15 @@
         <div class="blogRow">
           <div class="titleLine">
             <h3><%= row.commenter %></h3>
-            <% if(hasOwnProperty("User") && User == row.commenter) { %> 
+            <% if(hasOwnProperty("User") && User == row.commenter) { %>
               <div class="smallButtons">
-                <a>
+                <a href="/blog/comment/edit?commentId=<%= row.comment_id %>">
                   <button>Edit</button>
                 </a>
-                <a>
+                <form action="/blog/comment/delete" method="post">
+                  <input type="hidden" name="commentId" value="<%= row.comment_id %>">
                   <button>Delete</button>
-                </a>
+                </form>
               </div>
             <% } %>
           </div>

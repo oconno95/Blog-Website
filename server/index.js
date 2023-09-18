@@ -37,6 +37,7 @@ app.use(require('express-session')({
 // ROUTES
 const userRoute = require('./routes/user');
 const blogRoute = require('./routes/blog');
+const commentRoute = require('./routes/blog/comment');
 
 const path = require('path');
 
