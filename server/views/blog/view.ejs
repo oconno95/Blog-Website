@@ -7,12 +7,13 @@
         <h2><%= blog.title %></h2>
           <% if(hasOwnProperty("User") && User == blog.user) { %> 
             <div class="smallButtons">
-              <a>
+              <a href="/blog/edit?blogId=<%= blog.id %>">
                 <button>Edit</button>
               </a>
-              <a>
+              <form action="/blog/delete" method="post">
+                <input type="hidden" name="blogId" value="<%= blog.id %>">
                 <button>Delete</button>
-              </a>
+              </form>
             </div>
           <% } %> 
       </div>
