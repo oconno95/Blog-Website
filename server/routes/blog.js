@@ -14,8 +14,8 @@ router.get("/", async (req, res) => {
 });
 
 router.get("/user/:user", async (req, res) => {
+  const username = req.params.user;
   const [rows, fields] = await db.query("SELECT id, user, date_utc, title, body FROM BlogPost WHERE user=? ORDER BY date_utc desc", [req.params.user]);
-  const username = req.session.username;
   console.log(rows);
   res.render("blog/usersBlogs.ejs", {BlogData: rows, User: username});
 });
@@ -45,7 +45,6 @@ router.post("/create", async (req, res) => {
   const {title, blogContent} = req.body;
   try {
     await db.query("INSERT INTO BlogPost(user, date_utc, title, body) VALUES (?,NOW(),?,?)", [req.session.username, title, blogContent]);
-    console.log(req.body);
     res.send("Blog Posted!");
   }
   catch(e) {
@@ -70,7 +69,6 @@ router.post("/comment", async (req, res) => {
   const {blogId, blogComment} = req.body;
   try {
     await db.query("INSERT INTO BlogComment(blog_id, commenter, date_utc, body) VALUES (?,?,NOW(),?)", [blogId, req.session.username, blogComment]);
-    console.log(req.body);
     res.send("Comment Posted!");
   }
   catch(e) {
@@ -78,8 +76,5 @@ router.post("/comment", async (req, res) => {
     res.send("Comment Failed");
   }
 });
-
-
-
 
 module.exports = router;
