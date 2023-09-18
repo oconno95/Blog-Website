@@ -1,16 +1,14 @@
 <!DOCTYPE html>
 <html>
-  <%- include('../partials/head.ejs', {title: "Bloggy: Search"}); %>
+  <%- include('../partials/head.ejs', {title: "Bloggy: Search User"}); %>
   <body>
     <h1>Search Results</h1>
     <div class="blogView">
       <% for(var row of rows) { %>
           <div class="blogRow">
             <!-- Append row.id to URL so that the user can be redirected to the correct blog post -->
-            <h2><a href="/blog/id/<%= row.id %>">  <%= row.title %>  </a></h2>
-              <i><%= row.date_utc %></i>
-              <br>
-              <p><%= row.body %></p>
+            <h2><a href="/blog/user/<%= row.username %>">  <%= row.username %>  </a></h2>
+              <i><%= row.about %></i>
           </div>
       <% } %>
   </div>
