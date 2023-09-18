@@ -64,7 +64,7 @@ router.get("/search", async (req, res) => {
 
   const [rows, fields] = await db.query(`SELECT * FROM BlogPost WHERE title LIKE CONCAT('%',?,'%') OR groupname LIKE CONCAT('%',?,'%')`, [req.query.search_query, req.query.search_query]);
   res.render("blog/search_results", {rows: rows});
-  
+});
   
 router.post("/comment", async (req, res) => {
   const {blogId, blogComment} = req.body;
