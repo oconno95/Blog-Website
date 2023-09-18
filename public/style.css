@@ -129,8 +129,10 @@ textarea {
     flex-direction: row;
     justify-content: space-between;
 }
-.smallButtons button {
+.smallButtons * {
     display: inline-block;
+}
+.smallButtons button {
     width: fit-content;
     border: 1px solid black;
     padding: 2px 7px;
