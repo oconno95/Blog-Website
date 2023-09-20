@@ -10,7 +10,7 @@ router.post("/", async (req, res) => {
   const {blogId, blogComment} = req.body;
   try {
     await db.query("INSERT INTO BlogComment(blog_id, commenter, date_utc, body) VALUES (?,?,NOW(),?)", [blogId, req.session.username, blogComment]);
-    res.send("Comment Posted!");
+    res.redirect(`/blog/id/${blogId}`)
   }
   catch(e) {
     console.error(e);

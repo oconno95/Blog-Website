@@ -75,7 +75,7 @@
 
 .createComment {
     display: block;
-    margin: 2%;
+    margin: 1% 2%;
 }
 .createComment input {
     max-width: 1000px;
@@ -87,6 +87,7 @@
 }
 .createComment .button {
     width: fit-content;
+    border-radius: 5px;
 }
 
 input {
@@ -97,6 +98,7 @@ textarea {
     height: fit-content;
     width: fit-content;
     border: 1px solid black;
+    border-radius: 10px;
     padding: 4px;
 }
 
@@ -104,7 +106,7 @@ textarea {
     display: block;
 }
 .blogView .blogRow {
-    width: 95%;
+    width: 97%;
     height: auto;
     max-height: 200px;
     border: 1px solid black;
@@ -115,7 +117,7 @@ textarea {
     word-wrap: break-word;
 }
 .blogView .individual {
-    width: 95%;
+    width: 97%;
     height: max-content;
     border: 1px solid black;
     padding: 4px;
@@ -147,4 +149,7 @@ textarea {
     width: fit-content;
     margin: auto;
     padding: 80px;
+}
+.search_blog input {
+    border-radius: 5px;
 }
