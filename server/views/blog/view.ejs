@@ -36,24 +36,40 @@
     
     <div class="blogView">
       <% for(var row of CommentData) { %>
-        <div class="blogRow">
-          <div class="titleLine">
-            <h3><%= row.commenter %></h3>
-            <% if(hasOwnProperty("User") && User == row.commenter) { %>
-              <div class="smallButtons">
-                <a href="/blog/comment/edit?commentId=<%= row.comment_id %>">
-                  <button>Edit</button>
-                </a>
-                <form action="/blog/comment/delete" method="post">
-                  <input type="hidden" name="commentId" value="<%= row.comment_id %>">
-                  <button>Delete</button>
-                </form>
+        <% var userIsCommenter = hasOwnProperty("User") && User == row.commenter; %>
+
+        <div class="blogRow" id="comment<%= row.comment_id %>">
+          <% if(editCommentId != undefined && userIsCommenter) { %>
+            <form action="/blog/comment/edit" method="post">
+              <input type="hidden" name="commentId" value="<%= row.comment_id %>"/>
+              <div class="titleLine">
+                <h3><%= row.commenter %></h3>
               </div>
-            <% } %>
-          </div>
-          <i><%= row.date_utc %></i>
-          <br>
-          <p><%= row.body %></p>
+
+              <textarea name="commentBody"><%= row.body %></textarea>
+              <br>
+              <input type="submit" value="Edit Comment"/>
+            </form>
+          <% } else { %>
+            <div class="titleLine">
+              <h3><%= row.commenter %></h3>
+
+              <% if(userIsCommenter) { %>
+                <div class="smallButtons">
+                  <a href="/blog/comment/edit?commentId=<%= row.comment_id %>">
+                    <button>Edit</button>
+                  </a>
+                  <form action="/blog/comment/delete" method="post">
+                    <input type="hidden" name="commentId" value="<%= row.comment_id %>">
+                    <button>Delete</button>
+                  </form>
+                </div>
+              <% } %>
+            </div>
+            <i><%= row.date_utc %></i>
+            <br>
+            <p><%= row.body %></p>
+          <% } %>
         </div>
       <% } %>
     </div>

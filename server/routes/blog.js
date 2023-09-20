@@ -25,6 +25,7 @@ router.get("/user/:user", async (req, res) => {
 // blog post with an id of 3.
 router.get("/id/:id", async (req, res) => {
   const blogId = req.params.id; //access :id through req.params
+  const editCommentId = req.query.editCommentId;
 
   //Note that db.query returns an array with 2 elements: a "rows" array and a "fields" array.
   //The "rows" array will contain 0 to many rows of data. The "fields" array 
@@ -34,7 +35,7 @@ router.get("/id/:id", async (req, res) => {
   const username = req.session.username;
   console.log(username);
   //use rows[0] because there should only ever be 1 element when asking for an existing blog post
-  res.render("blog/view.ejs", {blog: rows[0], User: username, CommentData: comments});
+  res.render("blog/view.ejs", {blog: rows[0], User: username, CommentData: comments, editCommentId: editCommentId});
 
 });
 
@@ -75,7 +76,7 @@ router.post("/edit", async (req, res) => {
   let blogId = req.body.blogId;
 
   //returns [ResultSetHeader, undefined] for UPDATE SQL statements
-  let [resultHeader, fields] = await db.query("UPDATE BlogPost SET title=?, body=?, date_utc=NOW() WHERE id=? AND user=?", [title, blogContent, blogId, req.session.username]);
+  let [resultHeader, fields] = await db.query("UPDATE BlogPost SET title=?, body=? WHERE id=? AND user=?", [title, blogContent, blogId, req.session.username]);
   
   if(resultHeader.affectedRows == 0) {
     return res.send("Failed to edit post");
