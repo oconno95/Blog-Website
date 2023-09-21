@@ -1,6 +1,5 @@
 const express = require('express');
 const router = express.Router();
-
 const path = require('path');
 
 //other imported files
@@ -9,17 +8,21 @@ const {db} = require(path.resolve(process.cwd(), "./server/utils/database.js"));
 
 //View a users blogs ---------------------------------------------------------------------------------------------------------------------------------------------------------------------
 router.get("/", async (req, res) => {
-  const [rows, fields] = await db.query("SELECT id, user, date_utc, title, body FROM BlogPost WHERE user=? ORDER BY date_utc desc", [req.session.username]);
   const username = req.session.username;
+  const [groups, items] = await db.query("SELECT groupname FROM BlogGroup WHERE username=? ORDER BY groupName desc", [username]);
+  const [rows, fields] = await db.query("SELECT id, user, date_utc, title, body FROM BlogPost WHERE user=? ORDER BY date_utc desc", [username]);
+  console.log(groups);
   console.log(rows);
-  res.render("blog/usersBlogs.ejs", {BlogData: rows, User: username});
+  res.render("blog/usersBlogs.ejs", {BlogGroup: groups, BlogData: rows, User: username, Account: req.session.username});
 });
 
 router.get("/user/:user", async (req, res) => {
   const username = req.params.user;
-  const [rows, fields] = await db.query("SELECT id, user, date_utc, title, body FROM BlogPost WHERE user=? ORDER BY date_utc desc", [req.params.user]);
+  const [groups, items] = await db.query("SELECT groupname FROM BlogGroup WHERE username=? ORDER BY groupName desc", [username]);
+  const [rows, fields] = await db.query("SELECT id, user, date_utc, title, body FROM BlogPost WHERE user=? ORDER BY date_utc desc", [username]);
+  console.log(groups);
   console.log(rows);
-  res.render("blog/usersBlogs.ejs", {BlogData: rows, User: username});
+  res.render("blog/usersBlogs.ejs", {BlogGroup: groups, BlogData: rows, User: username, Account: req.session.username});
 });
 
 //View a blog by id ----------------------------------------------------------------------------------------------------------------------------------------------------------------------

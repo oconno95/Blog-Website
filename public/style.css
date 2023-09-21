@@ -67,9 +67,6 @@ textarea {
     padding: 1em;
     border-radius: 10px;
 }
-.blogButtons a {
-    padding-bottom: 0px;
-}
 
 /* Login or Create account -------------------------------------- */
 .userItems {
@@ -147,6 +144,10 @@ textarea {
 }
 .blogView p{
     white-space: pre-wrap;
+}
+.blogView h1{
+    margin-left: 10px;
+    padding-bottom: 0px;
 }
 
 .blogView .titleLine {
