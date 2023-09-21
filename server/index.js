@@ -34,7 +34,7 @@ app.use(require('express-session')({
 }));
 
 
-// ROUTES
+//routes
 const userRoute = require('./routes/user');
 const blogRoute = require('./routes/blog');
 const commentRoute = require('./routes/comment');
@@ -60,7 +60,7 @@ app.use((req, res, next) => {
 });
 
 
-//start web server ---------------------------------------------------------------------------------------------------------------------------------------------------------------
+//start web server
 app.listen(port, () => {
   console.log(`Web app runnin on port ${port}`);
 

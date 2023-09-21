@@ -1,44 +1,49 @@
 const express = require('express');
 const router = express.Router();
-
 const path = require('path');
 
 //other imported files
 const {db} = require(path.resolve(process.cwd(), "./server/utils/database.js"));
 
+
+//View a users blogs ---------------------------------------------------------------------------------------------------------------------------------------------------------------------
 router.get("/", async (req, res) => {
-  const [rows, fields] = await db.query("SELECT id, user, date_utc, title, body FROM BlogPost WHERE user=? ORDER BY date_utc desc", [req.session.username]);
   const username = req.session.username;
+  const [groups, items] = await db.query("SELECT groupname FROM BlogGroup WHERE username=? ORDER BY groupName desc", [username]);
+  const [rows, fields] = await db.query("SELECT id, user, date_utc, title, body FROM BlogPost WHERE user=? ORDER BY date_utc desc", [username]);
+  console.log(groups);
   console.log(rows);
-  res.render("blog/usersBlogs.ejs", {BlogData: rows, User: username});
+  res.render("blog/usersBlogs.ejs", {BlogGroup: groups, BlogData: rows, User: username, Account: req.session.username});
 });
 
 router.get("/user/:user", async (req, res) => {
   const username = req.params.user;
-  const [rows, fields] = await db.query("SELECT id, user, date_utc, title, body FROM BlogPost WHERE user=? ORDER BY date_utc desc", [req.params.user]);
+  const [groups, items] = await db.query("SELECT groupname FROM BlogGroup WHERE username=? ORDER BY groupName desc", [username]);
+  const [rows, fields] = await db.query("SELECT id, user, date_utc, title, body FROM BlogPost WHERE user=? ORDER BY date_utc desc", [username]);
+  console.log(groups);
   console.log(rows);
-  res.render("blog/usersBlogs.ejs", {BlogData: rows, User: username});
+  res.render("blog/usersBlogs.ejs", {BlogGroup: groups, BlogData: rows, User: username, Account: req.session.username});
 });
 
-//the :id in the route is a route parameter (see https://expressjs.com/en/guide/routing.html#route-parameters)
-// Ex: When the user visits /blog/id/3, the "3" is stored in the req.params.id variable so you can retrieve the 
-// blog post with an id of 3.
+//View a blog by id ----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+// the :id in the route is a route parameter (see https://expressjs.com/en/guide/routing.html#route-parameters)
+// Ex: When the user visits /blog/id/3, the "3" is stored in the req.params.id variable so you can retrieve the blog post with an id of 3.
 router.get("/id/:id", async (req, res) => {
   const blogId = req.params.id; //access :id through req.params
   const editCommentId = req.query.editCommentId;
 
   //Note that db.query returns an array with 2 elements: a "rows" array and a "fields" array.
-  //The "rows" array will contain 0 to many rows of data. The "fields" array 
-  //is almost useless for what we're doing, since it only lists the columns accessed
+  //The "rows" array will contain 0 to many rows of data. 
+  //The "fields" array is almost useless for what we're doing, since it only lists the columns accessed.
   const [rows, fields] = await db.query("SELECT * FROM BlogPost WHERE id=?", [blogId]);
   const [comments, elements] = await db.query("SELECT * FROM BlogComment WHERE blog_id=?", [blogId]);
   const username = req.session.username;
-  console.log(username);
   //use rows[0] because there should only ever be 1 element when asking for an existing blog post
-  res.render("blog/view.ejs", {blog: rows[0], User: username, CommentData: comments, editCommentId: editCommentId});
 
+  res.render("blog/view.ejs", {blog: rows[0], User: username, CommentData: comments, editCommentId: editCommentId});
 });
 
+//Create a blog --------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 router.get("/create", (req, res) => {
   res.render("blog/create.ejs");
 });
@@ -47,7 +52,7 @@ router.post("/create", async (req, res) => {
   const {title, blogContent} = req.body;
   try {
     let [result, fields] = await db.query("INSERT INTO BlogPost(user, date_utc, title, body) VALUES (?,NOW(),?,?)", [req.session.username, title, blogContent]);
-    res.redirect(`/blog/id/${result.insertId}`)
+    res.redirect(`/blog/id/${result.insertId}`);
   }
   catch(e) {
     console.error(e);
@@ -55,6 +60,7 @@ router.post("/create", async (req, res) => {
   }
 });
 
+//Edit a blog ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 router.get("/edit", async (req, res) => {
   let blogId = req.query.blogId; //because this is a GET request
 
@@ -82,9 +88,10 @@ router.post("/edit", async (req, res) => {
     return res.send("Failed to edit post");
   }
   
-  res.redirect(`/blog/id/${blogId}`)
+  res.redirect(`/blog/id/${blogId}`);
 });
 
+//Delete a blog --------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 router.post("/delete", async (req, res) => {
   const blogId = req.body.blogId;
 
@@ -95,10 +102,27 @@ router.post("/delete", async (req, res) => {
     return res.send("Failed to delete post");
   }
 
-  res.send("Blog Post Deleted!")
-  
+  res.send("Blog Post Deleted!");
 });
 
+//Create a blog group --------------------------------------------------------------------------------------------------------------------------------------------------------------------
+router.get("/group/create", (req, res) => {
+  res.render("blog/createGroup.ejs");
+});
+
+router.post("/group/create", async (req, res) => {
+  const {groupName} = req.body;
+  try {
+    let [result, fields] = await db.query("INSERT INTO BlogGroup(username, groupname) VALUES (?,?)", [req.session.username, groupName]);
+    res.redirect("/blog");
+  }
+  catch(e) {
+    console.error(e);
+    res.render("blog/createGroup.ejs", {groupname: groupName, error: true});
+  }
+});
+
+//Search ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 router.get("/search", async (req, res) => {
   if(req.query.filter_by === 'user') {
     const [rows, fields] = await db.query(`SELECT * FROM User WHERE username LIKE CONCAT('%',?,'%')`, [req.query.search_query]);

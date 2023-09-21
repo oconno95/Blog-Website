@@ -2,6 +2,7 @@
 <html>
   <%- include('../partials/head.ejs', {title: "Bloggy: " + blog.title }); %>
   <body>
+    <!-- Displays the blog --------------------------------------------------------------------------------------------------------------- -->
     <div class="blogView"><div class="individual">
       <div class="titleLine">
         <h2><%= blog.title %></h2>
@@ -17,11 +18,11 @@
             </div>
           <% } %> 
       </div>
-      <i><%= blog.date_utc %></i>
+      <i id="blogDate<%= blog.id %>"><%= blog.date_utc %></i>
       <br><br>
       <p><%= blog.body %></p>
     </div></div>
-
+    <!-- Displays the Comments ----------------------------------------------------------------------------------------------------------- -->
     <div class="createComment">
       <h1>Write a Comment</h1>
       <form action="/blog/comment" method="post">
@@ -45,7 +46,6 @@
               <div class="titleLine">
                 <h3><%= row.commenter %></h3>
               </div>
-
               <textarea name="commentBody"><%= row.body %></textarea>
               <br>
               <input type="submit" value="Edit Comment"/>
@@ -66,12 +66,39 @@
                 </div>
               <% } %>
             </div>
-            <i><%= row.date_utc %></i>
+            <i id="commentDate<%= row.comment_id %>"><%= row.date_utc %></i>
             <br>
             <p><%= row.body %></p>
           <% } %>
         </div>
       <% } %>
     </div>
+
+    <!-- Replace unformatted UTC Date to localized date string in Blog Post -->
+    <script> //I hate this but gonna leave it
+      var dateOptions<%= blog.id %> = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'};
+      var timeOptions<%= blog.id %> = { hour: "numeric", minute: "2-digit" };
+      const dateElement<%= blog.id %> = document.getElementById("blogDate<%= blog.id %>");
+      const date<%= blog.id %> = new Date("<%= blog.date_utc %>");
+      dateElement<%= blog.id %>.innerHTML = 
+        date<%= blog.id %>.toLocaleDateString(undefined, dateOptions<%= blog.id %>) + " at " + 
+        date<%= blog.id %>.toLocaleTimeString(undefined, timeOptions<%= blog.id %>);
+    </script>
+
+    <!-- Replace unformatted UTC Date to localized date string in each comment -->
+    <% for(var row of CommentData) { %>
+      <script> //I hate this but gonna leave it
+        var dateOptions<%= row.comment_id %> = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'};
+        var timeOptions<%= row.comment_id %> = { hour: "numeric", minute: "2-digit" };
+        const dateElement<%= row.comment_id %> = document.getElementById("commentDate<%= row.comment_id %>");
+        const date<%= row.comment_id %> = new Date("<%= row.date_utc %>");
+
+        dateElement<%= row.comment_id %>.innerHTML = 
+          date<%= row.comment_id %>.toLocaleDateString(undefined, dateOptions<%= row.comment_id %>) + " at " + 
+          date<%= row.comment_id %>.toLocaleTimeString(undefined, timeOptions<%= row.comment_id %>);
+      </script>
+    <% } %>
+
+
   </body>
 </html>
