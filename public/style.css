@@ -56,6 +56,21 @@ textarea {
     border-radius: 10px;
 }
 
+/* Create Blog or Create Group ---------------------------------- */
+.blogButtons {
+    display: inline-block;
+    width: fit-content;
+}
+.blogButtons * {
+    display: inline-block;
+    width: fit-content;
+    padding: 1em;
+    border-radius: 10px;
+}
+.blogButtons a {
+    padding-bottom: 0px;
+}
+
 /* Login or Create account -------------------------------------- */
 .userItems {
     display: block;
@@ -103,7 +118,6 @@ textarea {
     width: fit-content;
     border-radius: 5px;
 }
-
 
 /* View a blog -------------------------------------------------- */
 .blogView {

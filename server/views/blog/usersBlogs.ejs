@@ -2,24 +2,35 @@
 <html>
   <%- include('../partials/head.ejs', {title: "Bloggy: " + User}); %>
   <body>
+    <% if(true) { %> 
+      <div class="blogButtons">
+       <a href="/blog/create">
+         <button>Write a Blog</button>
+       </a>
+       <a href="/blog/group/create">
+        <button>Create a Blog Group</button>
+      </a>
+     </div>
+    <% } %>
+    
     <div class="blogView">
       <% for(var row of BlogData) { %>
-          <div class="blogRow">
-            <!-- Append row.id to URL so that the user can be redirected to the correct blog post -->
-            <h2><a href="/blog/id/<%= row.id %>">  <%= row.title %>  </a></h2>
-              <i id="blog<%= row.id %>"><%= row.date_utc %></i>
-              <script> //I hate this but gonna leave it
-                var dateOptions<%= row.id %> = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'};
-                var timeOptions<%= row.id %> = { hour: "numeric", minute: "2-digit" };
-                const dateElement<%= row.id %> = document.getElementById("blog<%= row.id %>");
-                const date<%= row.id %> = new Date(dateElement<%= row.id %>.innerHTML);
-                dateElement<%= row.id %>.innerHTML = 
-                  date<%= row.id %>.toLocaleDateString(undefined, dateOptions<%= row.id %>) + " at " + 
-                  date<%= row.id %>.toLocaleTimeString(undefined, timeOptions<%= row.id %>);
-              </script>
-              <br>
-              <p><%= row.body %></p>
-          </div>
+        <div class="blogRow">
+          <!-- Append row.id to URL so that the user can be redirected to the correct blog post -->
+          <h2><a href="/blog/id/<%= row.id %>">  <%= row.title %>  </a></h2>
+            <i id="blog<%= row.id %>"><%= row.date_utc %></i>
+            <script> //I hate this but gonna leave it
+              var dateOptions<%= row.id %> = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'};
+              var timeOptions<%= row.id %> = { hour: "numeric", minute: "2-digit" };
+              const dateElement<%= row.id %> = document.getElementById("blog<%= row.id %>");
+              const date<%= row.id %> = new Date(dateElement<%= row.id %>.innerHTML);
+              dateElement<%= row.id %>.innerHTML = 
+                date<%= row.id %>.toLocaleDateString(undefined, dateOptions<%= row.id %>) + " at " + 
+                date<%= row.id %>.toLocaleTimeString(undefined, timeOptions<%= row.id %>);
+            </script>
+            <br>
+            <p><%= row.body %></p>
+        </div>
       <% } %>
     </div>
   </body>

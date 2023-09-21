@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+  <%- include('../partials/head.ejs', {title: "Bloggy: Create Blog Group"}); %>
+  <body>
+    <div class="createBlog">
+      <h1>Create a blog group</h1>
+      <form action="<%= (typeof isEditing !== "undefined" && isEditing) ? "/blog/group/edit" : "/blog/group/create" %>" method="post">
+        <label for="groupName">Group Name:</label>
+        <br>
+        <input type="text" id="groupName" name="groupName" required="true" value="<%= typeof groupName !== "undefined" ? groupName : "" %>">
+        <br>
+        <input class="button" type="submit" value="Create Blog Group">
+      </form>
+    </div>
+
+    <% if(hasOwnProperty("error") && error) { %>
+      <script>
+        alert("Failed to Create Blog Group");
+      </script>
+    <% } %>
+  </body>
+</html>
