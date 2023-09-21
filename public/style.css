@@ -5,29 +5,40 @@
     border: 0;
 }
 
+input {
+    border: 1px solid black;
+    padding: 4px;
+}
+textarea {
+    height: fit-content;
+    width: fit-content;
+    border: 1px solid black;
+    border-radius: 10px;
+    padding: 4px;
+}
+
+/* Header ------------------------------------------------------- */
 .header {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-
     width: 100%;
     height: 45px;
     padding: 0 10px;
     background-color: rgb(184, 184, 224);
     vertical-align: middle;
 }
-
 .header .search_blog {
     display: inline-block;
     margin: auto 0; /* center search bar vertically */
 }
-
 .header .title {
     text-decoration: none;
     color: black;
     margin: auto 0; /* Center text vertically */
 }
 
+/* Home page ---------------------------------------------------- */
 .name {
     text-align: center;
     font-family: cursive;
@@ -45,6 +56,7 @@
     border-radius: 10px;
 }
 
+/* Login or Create account -------------------------------------- */
 .userItems {
     display: block;
     width: 250px;
@@ -54,6 +66,7 @@
     margin: 10px auto; /* top and bottom have margin of 10, button is automaically centered */
 }
 
+/* Create Blog -------------------------------------------------- */
 .createBlog {
     display: block;
     margin: 2%;
@@ -73,6 +86,7 @@
     width: fit-content;
 }
 
+/* Create Comment ----------------------------------------------- */
 .createComment {
     display: block;
     margin: 1% 2%;
@@ -90,18 +104,8 @@
     border-radius: 5px;
 }
 
-input {
-    border: 1px solid black;
-    padding: 4px;
-}
-textarea {
-    height: fit-content;
-    width: fit-content;
-    border: 1px solid black;
-    border-radius: 10px;
-    padding: 4px;
-}
 
+/* View a blog -------------------------------------------------- */
 .blogView {
     display: block;
 }
@@ -127,6 +131,9 @@ textarea {
     border-radius: 10px;
     word-wrap: break-word;
 }
+.blogView p{
+    white-space: pre-wrap;
+}
 
 .blogView .titleLine {
     display: flex;
@@ -143,10 +150,8 @@ textarea {
     padding: 2px 7px;
     border-radius: 5px;
 }
-.blogView p{
-    white-space: pre-wrap;
-}
 
+/* Search ------------------------------------------------------ */
 .search {
     display: block;
     width: fit-content;
