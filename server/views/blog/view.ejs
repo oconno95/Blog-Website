@@ -40,7 +40,7 @@
         <% var userIsCommenter = hasOwnProperty("User") && User == row.commenter; %>
 
         <div class="blogRow" id="comment<%= row.comment_id %>">
-          <% if(editCommentId != undefined && userIsCommenter) { %>
+          <% if(editCommentId == row.comment_id && userIsCommenter) { %>
             <form action="/blog/comment/edit" method="post">
               <input type="hidden" name="commentId" value="<%= row.comment_id %>"/>
               <div class="titleLine">
@@ -85,8 +85,11 @@
         date<%= blog.id %>.toLocaleTimeString(undefined, timeOptions<%= blog.id %>);
     </script>
 
-    <!-- Replace unformatted UTC Date to localized date string in each comment -->
-    <% for(var row of CommentData) { %>
+    <!-- 
+      Replace unformatted UTC Date to localized date string in 
+      all comments that are NOT being edited 
+    -->
+    <% for(var row of CommentData.filter((r) => editCommentId == undefined || editCommentId != r.comment_id || User != r.commenter)) { %>
       <script> //I hate this but gonna leave it
         var dateOptions<%= row.comment_id %> = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'};
         var timeOptions<%= row.comment_id %> = { hour: "numeric", minute: "2-digit" };
