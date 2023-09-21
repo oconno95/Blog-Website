@@ -27,11 +27,11 @@ router.get("/edit", async (req, res) => {
 });
 
 router.post("/edit", async (req, res) => {
-  const {commentId, commentBody, blogId} = req.body;
+  const {commentId, commentBody} = req.body;
 
   const [rows, fields1] = await db.query("SELECT blog_id FROM BlogComment WHERE comment_id=?", [commentId]);
 
-  const [result, fields] = await db.query("UPDATE BlogComment SET body=? WHERE comment_id=?", [commentBody, commentId]);
+  const [result, fields] = await db.query("UPDATE BlogComment SET body=? WHERE comment_id=? AND commenter=?", [commentBody, commentId, req.session.username]);
 
   if(result.affectedRows != 0) {
     return res.redirect(`/blog/id/${rows[0].blog_id}#comment${commentId}`);
@@ -40,6 +40,19 @@ router.post("/edit", async (req, res) => {
   res.send("Failed to edit comment!");
 });
 
+router.post("/delete", async (req, res) => {
+  const {commentId} = req.body;
+
+  const [rows, fields1] = await db.query("SELECT blog_id FROM BlogComment WHERE comment_id=?", [commentId]);
+
+  const [result, fields] = await db.query("DELETE FROM BlogComment WHERE comment_id=? AND commenter=?", [commentId, req.session.username]);
+  
+  if(result.affectedRows == 0) {
+    return res.send("failed to delete comment");
+  }
+
+  return res.redirect(`/blog/id/${rows[0].blog_id}#comment${commentId}`);
+});
 
 
 module.exports = router;
