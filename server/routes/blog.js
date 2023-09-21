@@ -32,7 +32,6 @@ router.get("/id/:id", async (req, res) => {
   const [rows, fields] = await db.query("SELECT * FROM BlogPost WHERE id=?", [blogId]);
   const [comments, elements] = await db.query("SELECT * FROM BlogComment WHERE blog_id=?", [blogId]);
   const username = req.session.username;
-  console.log(username);
   //use rows[0] because there should only ever be 1 element when asking for an existing blog post
   res.render("blog/view.ejs", {blog: rows[0], User: username, CommentData: comments});
 

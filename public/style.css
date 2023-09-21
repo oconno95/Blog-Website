@@ -110,6 +110,7 @@ textarea {
     height: auto;
     max-height: 200px;
     border: 1px solid black;
+    background-color: rgb(241, 239, 239);
     padding: 4px;
     margin: 15px;
     border-radius: 10px;
@@ -120,6 +121,7 @@ textarea {
     width: 97%;
     height: max-content;
     border: 1px solid black;
+    background-color: rgb(241, 239, 239);
     padding: 4px;
     margin: 15px;
     border-radius: 10px;
@@ -137,6 +139,7 @@ textarea {
 .smallButtons button {
     width: fit-content;
     border: 1px solid black;
+    background-color: lightgrey;
     padding: 2px 7px;
     border-radius: 5px;
 }
