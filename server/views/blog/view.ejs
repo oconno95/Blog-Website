@@ -2,12 +2,23 @@
 <html>
   <%- include('../partials/head.ejs', {title: "Bloggy: " + blog.title }); %>
   <body>
+
     <!-- Displays the blog --------------------------------------------------------------------------------------------------------------- -->
     <div class="blogView"><div class="individual">
       <div class="titleLine">
         <h2><%= blog.title %></h2>
           <% if(hasOwnProperty("User") && User == blog.user) { %> 
             <div class="smallButtons">
+              <form action="/blog/group">
+                <label for="groups">Move to a Group:</label>
+                <select id="groups" name="groups">
+                  <option value="volvo">Volvo</option>
+                  <option value="saab">Saab</option>
+                  <option value="fiat">Fiat</option>
+                  <option value="audi">Audi</option>
+                </select>
+                <input type="submit" value="Move">
+              </form>
               <a href="/blog/edit?blogId=<%= blog.id %>">
                 <button>Edit</button>
               </a>
@@ -22,7 +33,8 @@
       <br><br>
       <p><%= blog.body %></p>
     </div></div>
-    <!-- Displays the Comments ----------------------------------------------------------------------------------------------------------- -->
+
+    <!-- Write a Comment ----------------------------------------------------------------------------------------------------------------- -->
     <div class="createComment">
       <h1>Write a Comment</h1>
       <form action="/blog/comment" method="post">
@@ -34,13 +46,16 @@
       <br>
       <h1>Comments</h1>
     </div>
-    
+
+    <!-- Displays the Comments ----------------------------------------------------------------------------------------------------------- -->
     <div class="blogView">
       <% for(var row of CommentData) { %>
         <% var userIsCommenter = hasOwnProperty("User") && User == row.commenter; %>
-
         <div class="blogRow" id="comment<%= row.comment_id %>">
+
+          <!-- Editing the Comment ------------------------------------------------------------------------------------------------------- -->
           <% if(editCommentId == row.comment_id && userIsCommenter) { %>
+            
             <form action="/blog/comment/edit" method="post">
               <input type="hidden" name="commentId" value="<%= row.comment_id %>"/>
               <div class="titleLine">
@@ -50,10 +65,11 @@
               <br>
               <input type="submit" value="Edit Comment"/>
             </form>
+
+          <!-- Not Editing the Comment --------------------------------------------------------------------------------------------------- -->
           <% } else { %>
             <div class="titleLine">
               <h3><%= row.commenter %></h3>
-
               <% if(userIsCommenter) { %>
                 <div class="smallButtons">
                   <a href="/blog/comment/edit?commentId=<%= row.comment_id %>">
@@ -70,6 +86,7 @@
             <br>
             <p><%= row.body %></p>
           <% } %>
+
         </div>
       <% } %>
     </div>
@@ -85,10 +102,7 @@
         date<%= blog.id %>.toLocaleTimeString(undefined, timeOptions<%= blog.id %>);
     </script>
 
-    <!-- 
-      Replace unformatted UTC Date to localized date string in 
-      all comments that are NOT being edited 
-    -->
+    <!-- Replace unformatted UTC Date to localized date string in all comments that are NOT being edited -->
     <% for(var row of CommentData.filter((r) => editCommentId == undefined || editCommentId != r.comment_id || User != r.commenter)) { %>
       <script> //I hate this but gonna leave it
         var dateOptions<%= row.comment_id %> = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'};
@@ -101,7 +115,5 @@
           date<%= row.comment_id %>.toLocaleTimeString(undefined, timeOptions<%= row.comment_id %>);
       </script>
     <% } %>
-
-
   </body>
 </html>

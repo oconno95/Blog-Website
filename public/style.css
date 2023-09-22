@@ -1,3 +1,5 @@
+@import "header.css";
+
 * {
     box-sizing: border-box;
     padding: 0;
@@ -8,6 +10,7 @@
 input {
     border: 1px solid black;
     padding: 4px;
+    border-radius: 5px;
 }
 textarea {
     height: fit-content;
@@ -15,27 +18,7 @@ textarea {
     border: 1px solid black;
     border-radius: 10px;
     padding: 4px;
-}
-
-/* Header ------------------------------------------------------- */
-.header {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
     width: 100%;
-    height: 45px;
-    padding: 0 10px;
-    background-color: rgb(184, 184, 224);
-    vertical-align: middle;
-}
-.header .search_blog {
-    display: inline-block;
-    margin: auto 0; /* center search bar vertically */
-}
-.header .title {
-    text-decoration: none;
-    color: black;
-    margin: auto 0; /* Center text vertically */
 }
 
 /* Home page ---------------------------------------------------- */
@@ -91,7 +74,6 @@ textarea {
     width: 100%;
 }
 .createBlog textarea {
-    width: 100%;
     height: 30em;
 }
 .createBlog .button {
@@ -108,7 +90,6 @@ textarea {
     width: 100%;
 }
 .createComment textarea {
-    width: 100%;
     height: 10em;
 }
 .createComment .button {
@@ -155,10 +136,25 @@ textarea {
     flex-direction: row;
     justify-content: space-between;
 }
+.blogView .blogRow textarea {
+    height: 10em;
+}
 .smallButtons * {
     display: inline-block;
 }
+select {
+    background-color: lightgrey;
+    padding: 2px 7px;
+    border-radius: 5px;
+}
 .smallButtons button {
+    width: fit-content;
+    border: 1px solid black;
+    background-color: lightgrey;
+    padding: 2px 7px;
+    border-radius: 5px;
+}
+.smallButtons input {
     width: fit-content;
     border: 1px solid black;
     background-color: lightgrey;
@@ -172,7 +168,4 @@ textarea {
     width: fit-content;
     margin: auto;
     padding: 80px;
-}
-.search_blog input {
-    border-radius: 5px;
 }
