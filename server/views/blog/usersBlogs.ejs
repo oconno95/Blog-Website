@@ -30,19 +30,14 @@
           <!-- Append row.id to URL so that the user can be redirected to the correct blog post -->
           <h2><a href="/blog/id/<%= row.id %>">  <%= row.title %>  </a></h2>
             <i id="blogDate<%= row.id %>"><%= row.date_utc %></i>
-            <script> //I hate this but gonna leave it
-              var dateOptions<%= row.id %> = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'};
-              var timeOptions<%= row.id %> = { hour: "numeric", minute: "2-digit" };
-              const dateElement<%= row.id %> = document.getElementById("blogDate<%= row.id %>");
-              const date<%= row.id %> = new Date("<%= row.date_utc %>");
-              dateElement<%= row.id %>.innerHTML = 
-                date<%= row.id %>.toLocaleDateString(undefined, dateOptions<%= row.id %>) + " at " + 
-                date<%= row.id %>.toLocaleTimeString(undefined, timeOptions<%= row.id %>);
-            </script>
             <br>
             <p><%= row.body %></p>
         </div>
       <% } %>
     </div>
+    <script src="/js/date_localization.js"></script>
+    <script>
+      writeLocalizedDateOfElementsStartingWith("blogDate");
+    </script>
   </body>
 </html>
