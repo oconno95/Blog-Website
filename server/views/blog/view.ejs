@@ -91,29 +91,10 @@
       <% } %>
     </div>
 
-    <!-- Replace unformatted UTC Date to localized date string in Blog Post -->
-    <script> //I hate this but gonna leave it
-      var dateOptions<%= blog.id %> = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'};
-      var timeOptions<%= blog.id %> = { hour: "numeric", minute: "2-digit" };
-      const dateElement<%= blog.id %> = document.getElementById("blogDate<%= blog.id %>");
-      const date<%= blog.id %> = new Date("<%= blog.date_utc %>");
-      dateElement<%= blog.id %>.innerHTML = 
-        date<%= blog.id %>.toLocaleDateString(undefined, dateOptions<%= blog.id %>) + " at " + 
-        date<%= blog.id %>.toLocaleTimeString(undefined, timeOptions<%= blog.id %>);
+    <script src="/js/date_localization.js"></script>
+    <script>
+      writeLocalizedDateOfElementsStartingWith("blogDate");
+      writeLocalizedDateOfElementsStartingWith("commentDate", "<%= editCommentId %>");
     </script>
-
-    <!-- Replace unformatted UTC Date to localized date string in all comments that are NOT being edited -->
-    <% for(var row of CommentData.filter((r) => editCommentId == undefined || editCommentId != r.comment_id || User != r.commenter)) { %>
-      <script> //I hate this but gonna leave it
-        var dateOptions<%= row.comment_id %> = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'};
-        var timeOptions<%= row.comment_id %> = { hour: "numeric", minute: "2-digit" };
-        const dateElement<%= row.comment_id %> = document.getElementById("commentDate<%= row.comment_id %>");
-        const date<%= row.comment_id %> = new Date("<%= row.date_utc %>");
-
-        dateElement<%= row.comment_id %>.innerHTML = 
-          date<%= row.comment_id %>.toLocaleDateString(undefined, dateOptions<%= row.comment_id %>) + " at " + 
-          date<%= row.comment_id %>.toLocaleTimeString(undefined, timeOptions<%= row.comment_id %>);
-      </script>
-    <% } %>
   </body>
 </html>
