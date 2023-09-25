@@ -16,10 +16,19 @@
       * Login
       * Delete
     * Blog
+      * View a users blogs
+      * View a blog by id
       * Search
-      * Groups
       * Create
+      * Edit
+      * Delete
+      * Groups
+        * Create
+        * Move
       * Comment
+        * Create
+        * Edit
+        * Delete
   * Dependencies
     * mysql2
     * ejs
