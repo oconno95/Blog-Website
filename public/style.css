@@ -161,11 +161,3 @@ select {
     padding: 2px 7px;
     border-radius: 5px;
 }
-
-/* Search ------------------------------------------------------ */
-.search {
-    display: block;
-    width: fit-content;
-    margin: auto;
-    padding: 80px;
-}

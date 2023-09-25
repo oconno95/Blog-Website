@@ -38,9 +38,10 @@ router.get("/id/:id", async (req, res) => {
   const [rows, fields] = await db.query("SELECT * FROM BlogPost WHERE id=?", [blogId]);
   const [comments, elements] = await db.query("SELECT * FROM BlogComment WHERE blog_id=?", [blogId]);
   const username = req.session.username;
+  const [groups, items] = await db.query("SELECT groupname FROM BlogGroup WHERE username=? ORDER BY groupName desc", [username]);
   //use rows[0] because there should only ever be 1 element when asking for an existing blog post
 
-  res.render("blog/view.ejs", {blog: rows[0], User: username, CommentData: comments, editCommentId: editCommentId});
+  res.render("blog/view.ejs", {blog: rows[0], User: username, CommentData: comments, editCommentId: editCommentId, BlogGroup: groups});
 });
 
 //Create a blog --------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -103,6 +104,15 @@ router.post("/delete", async (req, res) => {
   }
 
   res.send("Blog Post Deleted!");
+});
+
+//Move a blog to a group -----------------------------------------------------------------------------------------------------------------------------------------------------------------
+router.post("/group/move", async (req, res) => {
+  const blogId = req.body.blogId;
+  const blogGroup = req.body.groups;
+  const username = req.session.username;
+  let [resultHeader, fields] = await db.query("UPDATE BlogPost SET groupname=? WHERE id=? AND user=?", [blogGroup, blogId, username]);
+  res.redirect("/blog");
 });
 
 //Create a blog group --------------------------------------------------------------------------------------------------------------------------------------------------------------------
