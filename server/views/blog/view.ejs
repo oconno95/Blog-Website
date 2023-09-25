@@ -9,14 +9,14 @@
         <h2><%= blog.title %></h2>
           <% if(hasOwnProperty("User") && User == blog.user) { %> 
             <div class="smallButtons">
-              <form action="/blog/group">
+              <form action="/blog/group/move" method="post">
                 <label for="groups">Move to a Group:</label>
                 <select id="groups" name="groups">
-                  <option value="volvo">Volvo</option>
-                  <option value="saab">Saab</option>
-                  <option value="fiat">Fiat</option>
-                  <option value="audi">Audi</option>
+                  <% for(var groups of BlogGroup) { %>
+                    <option value="<%= groups.groupname %>"><%= groups.groupname %></option>
+                  <% } %>
                 </select>
+                <input type="hidden" name="blogId" value="<%= blog.id %>">
                 <input type="submit" value="Move">
               </form>
               <a href="/blog/edit?blogId=<%= blog.id %>">
