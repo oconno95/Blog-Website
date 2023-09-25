@@ -101,6 +101,17 @@ textarea {
 .blogView {
     display: block;
 }
+.blogView .blogGroup {
+    width: 97%;
+    height: auto;
+    border: 1px solid black;
+    background-color: rgb(249, 247, 247);
+    padding: 4px;
+    margin: 15px;
+    border-radius: 10px;
+    overflow: clip;
+    word-wrap: break-word;
+}
 .blogView .blogRow {
     width: 97%;
     height: auto;
