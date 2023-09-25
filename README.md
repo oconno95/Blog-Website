@@ -24,7 +24,7 @@
       * Delete
       * Groups
         * Create
-        * Move
+        * Move Blog
       * Comment
         * Create
         * Edit
