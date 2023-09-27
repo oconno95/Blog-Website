@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+  <%- include('../partials/head.ejs', {title: "Bloggy: Edit Account"}); %>
+  <body>
+    <div class="userItems">
+        <h1>Login</h1>
+        <b>Current Username<%= username %></b>
+        <br>
+        <form action="/user/edit" method="post">
+            <label for="new_username">New Username:</label>
+            <br>
+            <input type="text" id="new_username" name="new_username" required="false">
+            <br><br>
+
+            <label for="new_password">New Password:</label>
+            <br>
+            <input type="password" id="new_password" name="new_password" required="false">
+            <br>
+            <label for="confirm_new_password">Confirm New Password:</label>
+            <br>
+            <input type="password" id="confirm_new_password" name="confirm_new_password" required="false">
+            <br><br>
+
+            <label for="password">Write Current Password to Confirm Changes:</label>
+            <br>
+            <input type="password" id="password" name="password" required="true">
+            <br>
+            <small><%= hasOwnProperty("err") ? err : "" %></small>
+            <br>
+            <input type="submit" value="Apply Changes">
+        </form>
+    </div>
+  </body>
+</html>

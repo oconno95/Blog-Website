@@ -172,4 +172,56 @@ router.post("/create", async (req, res) => {
 
 });
 
+router.get("/edit", async (req, res) => {
+  res.render("user/edit.ejs", {username: req.session.username});
+});
+
+router.post("/edit", async (req, res) => {
+  let {new_username, new_password, confirm_new_password, password} = req.body;
+
+  new_username = new_username.trim();
+  new_password = new_password.trim();
+  confirm_new_password = confirm_new_password.trim();
+
+  const changedUsername = new_username != "";
+
+  let renderErr = (err) => res.render("user/edit.ejs", {username: req.session.username, err: err});
+
+  if(!changedUsername) {
+    new_username = req.session.username;
+  } else if(new_username.length > 10) {
+    return renderErr("Your username must be 10 characters or less!");
+  }
+
+  let args = [new_username];
+  let query = "UPDATE User SET username=?";
+
+  if(new_password) {
+    if(confirm_new_password !== new_password) {
+      return renderErr("New Password does not match!");
+    } else if(new_password.length < 8) {
+      return renderErr("Your password must be 8 characters or more!");
+    }
+
+    let {hash, salt} = hashAndSaltPassword(new_password);
+    query += " ,pwd=?, pwd_salt=?";
+    args.push(hash, salt)
+  }
+
+  query += " WHERE username=?";
+  args.push(req.session.username);
+
+  const [result, fields] = await db.query(query, args);
+
+  if(result.affectedRows == 0) {
+    return renderErr("Failed for some reason!");
+  }
+
+  if(changedUsername) {
+    req.session.username = new_username;
+  }
+
+  res.redirect("/");
+});
+
 module.exports = router;
