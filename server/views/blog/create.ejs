@@ -10,11 +10,20 @@
         <input type="text" id="title" name="title" required="true" value="<%= typeof title !== "undefined" ? title : "" %>">
         <br>
         
-        <select id="groups" name="group">
+        <select id="groups" name="group_id">
+          <% var alreadyInGroup = false; %>
           <% for(var group of groups) { %>
             <% //For the groupname, if the groupname of this blog is in the groups array, add the selected attribute %>
-            <option value="<%= group.groupname %>" <%= typeof groupname !== "undefined" && groupname == group.groupname ? "selected" : "" %>><%= group.groupname %></option>
+            <% var selectString = ""; %>
+            <% if(typeof group_id !== "undefined" && group_id == group.id) {
+                let selectedString = "selected";
+                alreadyInGroup = true;
+            } %>
+            <option value="<%= group.id %>" <%= selectString %>><%= group.groupname %></option>
           <% } %>
+          <option value="" <%= alreadyInGroup ? "" : "selected" %>>No Group</option>
+        </select>
+        <br>
         <label for="blogContent">Blog Content:</label>
         <br>
         <textarea name="blogContent" id="blogContent" required="true"><%= typeof body !== "undefined" ? body : "" %></textarea>
