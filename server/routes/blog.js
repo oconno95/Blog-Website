@@ -46,8 +46,9 @@ router.get("/id/:id", async (req, res) => {
 });
 
 //Create a blog --------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-router.get("/create", (req, res) => {
-  res.render("blog/create.ejs");
+router.get("/create", async (req, res) => {
+  let [rows, fields] = await db.query("SELECT groupname FROM BlogGroup WHERE username=?", [req.session.username]);
+  res.render("blog/create.ejs", {groups: rows});
 });
 
 router.post("/create", async (req, res) => {
@@ -66,7 +67,8 @@ router.post("/create", async (req, res) => {
 router.get("/edit", async (req, res) => {
   let blogId = req.query.blogId; //because this is a GET request
 
-  let [rows, fields] = await db.query("SELECT user, title, body FROM BlogPost WHERE id=?", blogId);
+  let [rows, fields] = await db.query("SELECT user, title, body, groupname FROM BlogPost WHERE id=?", blogId);
+  let [groups, fields1] = await db.query("SELECT groupname FROM BlogGroup WHERE username=?", [req.session.username]);
 
   if(rows.length == 0) {
     res.send("No blog post with that id!");
@@ -76,15 +78,15 @@ router.get("/edit", async (req, res) => {
     return res.status(401).send("Unauthorized");
   }
 
-  res.render("blog/create.ejs", {isEditing: true, title: rows[0].title, body: rows[0].body, blogId: blogId});
+  res.render("blog/create.ejs", {isEditing: true, title: rows[0].title, body: rows[0].body, groups: groups, groupname: rows[0].groupname, blogId: blogId});
 });
 
 router.post("/edit", async (req, res) => {
-  const {title, blogContent} = req.body;
+  const {title, blogContent, group} = req.body;
   let blogId = req.body.blogId;
 
   //returns [ResultSetHeader, undefined] for UPDATE SQL statements
-  let [resultHeader, fields] = await db.query("UPDATE BlogPost SET title=?, body=? WHERE id=? AND user=?", [title, blogContent, blogId, req.session.username]);
+  let [resultHeader, fields] = await db.query("UPDATE BlogPost SET title=?, body=?, groupname=? WHERE id=? AND user=?", [title, blogContent, group, blogId, req.session.username]);
   
   if(resultHeader.affectedRows == 0) {
     return res.send("Failed to edit post");
