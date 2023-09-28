@@ -12,9 +12,11 @@ CREATE TABLE User (
 
 DROP TABLE IF EXISTS BlogGroup;
 CREATE TABLE BlogGroup(
+  id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
   username varchar(10) NOT NULL,
   groupname varchar(100) NOT NULL,
-  PRIMARY KEY(username, groupname)
+  UNIQUE (username, groupname),
+  FOREIGN KEY (username) REFERENCES User(username) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
 DROP TABLE IF EXISTS BlogPost;
@@ -29,10 +31,10 @@ CREATE TABLE BlogPost(
   date_utc DATETIME NOT NULL,
   title varchar(100) NOT NULL,
   body varchar(5000) NOT NULL,
-  groupname varchar(100) NULL,
+  group_id INT NULL,
 
   FOREIGN KEY (user) REFERENCES User(username) ON UPDATE CASCADE ON DELETE CASCADE,
-  FOREIGN KEY(user, groupname) REFERENCES BlogGroup(username, groupname) ON UPDATE CASCADE ON DELETE CASCADE
+  FOREIGN KEY(group_id) REFERENCES BlogGroup(id) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
 DROP TABLE IF EXISTS BlogComment;

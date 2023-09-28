@@ -187,6 +187,14 @@ router.post("/edit", async (req, res) => {
 
   let renderErr = (err) => res.render("user/edit.ejs", {username: req.session.username, err: err});
 
+  //check if current password is correct
+  const [rows, _] = await db.query("SELECT * FROM User WHERE username=?", [req.session.username]);
+  const hashedPassword = hashAndSaltPassword(password, rows[0].pwd_salt).hash;
+  if(hashedPassword !== rows[0].pwd) {
+    return renderErr("Incorrect current password!");
+  }
+
+
   if(!changedUsername) {
     new_username = req.session.username;
   } else if(new_username.length > 10) {

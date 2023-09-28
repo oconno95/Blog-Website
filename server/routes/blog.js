@@ -35,7 +35,8 @@ router.get("/id/:id", async (req, res) => {
   //Note that db.query returns an array with 2 elements: a "rows" array and a "fields" array.
   //The "rows" array will contain 0 to many rows of data. 
   //The "fields" array is almost useless for what we're doing, since it only lists the columns accessed.
-  const [rows, fields] = await db.query("SELECT * FROM BlogPost WHERE id=?", [blogId]);
+  const [rows, fields] = await db.query("SELECT BP.*, (SELECT groupname FROM BlogGroup AS BG WHERE BP.group_id=BG.id) AS groupname FROM BlogPost AS BP WHERE BP.id=?", [blogId]);
+  console.log(rows);
   const [comments, elements] = await db.query("SELECT * FROM BlogComment WHERE blog_id=?", [blogId]);
   const username = req.session.username;
   const [groups, items] = await db.query("SELECT groupname FROM BlogGroup WHERE username=? ORDER BY groupName desc", [username]);
@@ -111,7 +112,7 @@ router.post("/group/move", async (req, res) => {
   const blogId = req.body.blogId;
   const blogGroup = req.body.groups;
   const username = req.session.username;
-  let [resultHeader, fields] = await db.query("UPDATE BlogPost SET groupname=? WHERE id=? AND user=?", [blogGroup, blogId, username]);
+  let [resultHeader, fields] = await db.query("UPDATE BlogPost SET group_id=(SELECT id FROM BlogGroup WHERE groupname=? AND username=? LIMIT 1) WHERE id=? AND user=?", [blogGroup, username, blogId, username]);
   res.redirect("/blog");
 });
 
@@ -140,7 +141,7 @@ router.get("/search", async (req, res) => {
     return;
   } 
 
-  const [rows, fields] = await db.query(`SELECT * FROM BlogPost WHERE title LIKE CONCAT('%',?,'%') OR groupname LIKE CONCAT('%',?,'%')`, [req.query.search_query, req.query.search_query]);
+  const [rows, fields] = await db.query(`SELECT * FROM BlogPost WHERE title LIKE CONCAT('%',?,'%') OR group_id IN (SELECT id FROM BlogGroup WHERE groupname LIKE CONCAT('%',?,'%'))`, [req.query.search_query, req.query.search_query]);
   res.render("blog/search_results", {rows: rows});
 });
 
