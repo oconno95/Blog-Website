@@ -10,7 +10,7 @@ const {db} = require(path.resolve(process.cwd(), "./server/utils/database.js"));
 router.get("/", async (req, res) => {
   const username = req.session.username;
   const [groups, items] = await db.query("SELECT groupname FROM BlogGroup WHERE username=? ORDER BY groupName desc", [username]);
-  const [rows, fields] = await db.query("SELECT * FROM BlogPost WHERE user=? ORDER BY date_utc desc", [username]);
+  const [rows, fields] = await db.query("SELECT BP.*, (SELECT groupname FROM BlogGroup AS BG WHERE BG.id=BP.group_id) AS groupname FROM BlogPost AS BP WHERE user=? ORDER BY date_utc desc", [username]);
   console.log(groups);
   console.log(rows);
   res.render("blog/usersBlogs.ejs", {BlogGroup: groups, BlogData: rows, User: username, Account: req.session.username});
@@ -19,7 +19,7 @@ router.get("/", async (req, res) => {
 router.get("/user/:user", async (req, res) => {
   const username = req.params.user;
   const [groups, items] = await db.query("SELECT groupname FROM BlogGroup WHERE username=? ORDER BY groupName desc", [username]);
-  const [rows, fields] = await db.query("SELECT * FROM BlogPost WHERE user=? ORDER BY date_utc desc", [username]);
+  const [rows, fields] = await db.query("SELECT BP.*, (SELECT groupname FROM BlogGroup AS BG WHERE BG.id=BP.group_id) AS groupname FROM BlogPost AS BP WHERE user=? ORDER BY date_utc desc", [username]);
   console.log(groups);
   console.log(rows);
   res.render("blog/usersBlogs.ejs", {BlogGroup: groups, BlogData: rows, User: username, Account: req.session.username});
