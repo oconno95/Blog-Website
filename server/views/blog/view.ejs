@@ -7,27 +7,28 @@
     <div class="blogView"><div class="individual">
       <div class="titleLine">
         <h2><%= blog.title %></h2>
-          <% if(hasOwnProperty("User") && User == blog.user) { %> 
-            <div class="smallButtons">
-              <form action="/blog/group/move" method="post">
-                <label for="groups">Move to a Group:</label>
-                <select id="groups" name="groups">
-                  <% for(var groups of BlogGroup) { %>
-                    <option value="<%= groups.groupname %>"><%= groups.groupname %></option>
-                  <% } %>
-                </select>
-                <input type="hidden" name="blogId" value="<%= blog.id %>">
-                <input type="submit" value="Move">
-              </form>
-              <a href="/blog/edit?blogId=<%= blog.id %>">
-                <button>Edit</button>
-              </a>
-              <form action="/blog/delete" method="post">
-                <input type="hidden" name="blogId" value="<%= blog.id %>">
-                <button>Delete</button>
-              </form>
-            </div>
-          <% } %> 
+        <% if(hasOwnProperty("User") && User == blog.user) { %> 
+          <div class="smallButtons">
+            <form action="/blog/group/move" method="post">
+              <label for="groups">Move to a Group:</label>
+              <select id="groups" name="groups">
+                <option value="none" selected disabled hidden>Select a Group</option>
+                <% for(var groups of BlogGroup) { %>
+                  <option value="<%= groups.groupname %>"><%= groups.groupname %></option>
+                <% } %>
+              </select>
+              <input type="hidden" name="blogId" value="<%= blog.id %>">
+              <input type="submit" value="Move">
+            </form>
+            <a href="/blog/edit?blogId=<%= blog.id %>">
+              <button>Edit</button>
+            </a>
+            <form action="/blog/delete" method="post">
+              <input type="hidden" name="blogId" value="<%= blog.id %>">
+              <button>Delete</button>
+            </form>
+          </div>
+        <% } %> 
       </div>
       <i id="blogDate<%= blog.id %>"><%= blog.date_utc %></i>
       <br><br>
@@ -36,14 +37,16 @@
 
     <!-- Write a Comment ----------------------------------------------------------------------------------------------------------------- -->
     <div class="createComment">
-      <h1>Write a Comment</h1>
-      <form action="/blog/comment" method="post">
-        <input type="hidden" name="blogId" value=<%= blog.id %>>
-        <textarea name="blogComment" id="blogComment" required="true"></textarea>
+      <% if(hasOwnProperty("User") && User != null) { %>
+        <h1>Write a Comment</h1>
+        <form action="/blog/comment" method="post">
+          <input type="hidden" name="blogId" value=<%= blog.id %>>
+          <textarea name="blogComment" id="blogComment" required="true"></textarea>
+          <br>
+          <input class="button" type="submit" value="Comment">
+        </form>
         <br>
-        <input class="button" type="submit" value="Comment">
-      </form>
-      <br>
+      <% } %>
       <h1>Comments</h1>
     </div>
 
