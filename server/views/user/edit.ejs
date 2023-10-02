@@ -29,6 +29,17 @@
             <br>
             <input type="submit" value="Apply Changes">
         </form>
+        <br>
+        <hr width="100%" color="red" size="4px"/>
+        <br>
+        <form action="/user/delete" method="post">
+          <label for="password">Confirm Password:</label>
+          <br>
+          <input type="password" id="password" name="password" required="true">
+          <br>
+          <small><%= hasOwnProperty("err") ? err : "" %></small>
+          <input type="submit" value="Delete Account">
+      </form>
     </div>
   </body>
 </html>

@@ -7,6 +7,7 @@
     padding: 0 10px;
     background-color: rgb(184, 184, 224);
     vertical-align: middle;
+    overflow: hidden;
 }
 .header .search_blog {
     display: inline-block;

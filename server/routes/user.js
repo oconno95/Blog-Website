@@ -4,12 +4,10 @@ const router = express.Router();
 const path = require('path');
 const crypto = require('node:crypto');
 
-
 //other imported files
 const {db} = require(path.resolve(process.cwd(), "./server/utils/database.js"));
 
 //HELPER functions
-
 /**
  * 
  * @param {string} password 
@@ -91,9 +89,14 @@ router.get("/login", (req, res) => {
 router.post("/login", async (req, res) => {
   const {username, password} = req.body;
 
-  if(!(await tryLogin(username, password, req.session))) {
-    return res.render("user/login.ejs", {login_err: "Invalid Username or Password!"});
+  try {
+    if(!(await tryLogin(username, password, req.session))) {
+      return res.render("user/login.ejs", {login_err: "Invalid Username or Password!"});
+    }
+  } catch (e) {
+    return res.render("user/login.ejs");
   }
+  
 
   //redirect to home page
   res.redirect("/");
@@ -229,6 +232,21 @@ router.post("/edit", async (req, res) => {
     req.session.username = new_username;
   }
 
+  res.redirect("/");
+});
+
+router.post("/delete", async (req, res) => {
+  let {password} = req.body;
+
+  //check if current password is correct
+  const [rows, _] = await db.query("SELECT * FROM User WHERE username=?", [req.session.username]);
+  const hashedPassword = hashAndSaltPassword(password, rows[0].pwd_salt).hash;
+  if(hashedPassword !== rows[0].pwd) {
+    return res.redirect("/user/edit");
+  }
+
+  await db.query("DELETE FROM User WHERE username = ?", [req.session.username]);
+  req.session.destroy();
   res.redirect("/");
 });
 
