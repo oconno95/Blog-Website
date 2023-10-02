@@ -9,6 +9,9 @@
         <br>
         <input maxlength="100" type="text" id="groupName" name="groupName" required="true" value="<%= typeof groupName !== "undefined" ? groupName : "" %>">
         <br>
+        <% if(typeof isEditing !== "undefined") { %>
+          <input type="hidden" name="oldGroupName" value="<%= groupName %>">
+        <% } %>
         <input class="button" type="submit" value="Create Blog Group">
       </form>
     </div>

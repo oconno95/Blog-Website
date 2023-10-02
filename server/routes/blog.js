@@ -110,31 +110,6 @@ router.post("/delete", async (req, res) => {
   res.send("Blog Post Deleted!");
 });
 
-//Move a blog to a group -----------------------------------------------------------------------------------------------------------------------------------------------------------------
-router.post("/group/move", async (req, res) => {
-  const blogId = req.body.blogId;
-  const blogGroup = req.body.groups;
-  const username = req.session.username;
-  let [resultHeader, fields] = await db.query("UPDATE BlogPost SET group_id=(SELECT id FROM BlogGroup WHERE groupname=? AND username=? LIMIT 1) WHERE id=? AND user=?", [blogGroup, username, blogId, username]);
-  res.redirect("/blog");
-});
-
-//Create a blog group --------------------------------------------------------------------------------------------------------------------------------------------------------------------
-router.get("/group/create", (req, res) => {
-  res.render("blog/createGroup.ejs");
-});
-
-router.post("/group/create", async (req, res) => {
-  const {groupName} = req.body;
-  try {
-    let [result, fields] = await db.query("INSERT INTO BlogGroup(username, groupname) VALUES (?,?)", [req.session.username, groupName]);
-    res.redirect("/blog");
-  }
-  catch(e) {
-    console.error(e);
-    res.render("blog/createGroup.ejs", {groupname: groupName, error: true});
-  }
-});
 
 //Search ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 router.get("/search", async (req, res) => {

@@ -38,6 +38,8 @@ app.use(require('express-session')({
 const userRoute = require('./routes/user');
 const blogRoute = require('./routes/blog');
 const commentRoute = require('./routes/comment');
+const groupRoute = require('./routes/group');
+
 
 const path = require('path');
 
@@ -53,6 +55,8 @@ app.get("/", (req, res) => {
 app.use('/user', userRoute);
 app.use('/blog', blogRoute);
 app.use('/blog/comment', commentRoute);
+app.use('/blog/group', groupRoute);
+
 
 //very last middleware handles 404 errors
 app.use((req, res, next) => {

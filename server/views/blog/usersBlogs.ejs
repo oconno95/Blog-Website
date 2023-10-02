@@ -21,7 +21,22 @@
       <% } %>
       <% for(var group of BlogGroup) { %>
         <div class="blogGroup">
-          <h2><%= group.groupname %></h2>
+          <div class="titleLine">
+            <h2><%= group.groupname %></h2>
+            <div class="smallButtons">
+              <a href="/blog/group/edit?groupname=<%= group.groupname %>"><button>Edit</button></a>
+              <form action="/blog/group/delete" method="post">
+                <input type="submit" value="Delete">
+                <input type="hidden" value="<%= group.groupname %>" name="groupname">
+
+                <input type="radio" id="keep" name="keepBlogs" value='true' checked>
+                <label for="user">Keep Blogs</label>
+                <input type="radio" id="no-keep" name="keepBlogs" value="false">
+                <label for="title">Delete Blogs</label>
+              </form>
+            </div>
+          </div>
+          
           <% for(var row of BlogData) { %>
             <% if(row.groupname == group.groupname) { %>
               <div class="blogRow">
