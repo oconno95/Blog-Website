@@ -7,7 +7,7 @@
       <form action="<%= (typeof isEditing !== "undefined" && isEditing) ? "/blog/edit" : "/blog/create" %>" method="post">
         <label for="title">Title:</label>
         <br>
-        <input type="text" id="title" name="title" required="true" value="<%= typeof title !== "undefined" ? title : "" %>">
+        <input maxlength="100" type="text" id="title" name="title" required="true" value="<%= typeof title !== "undefined" ? title : "" %>">
         <br>
         
         <select id="groups" name="group_id">
@@ -26,7 +26,7 @@
         <br>
         <label for="blogContent">Blog Content:</label>
         <br>
-        <textarea name="blogContent" id="blogContent" required="true"><%= typeof body !== "undefined" ? body : "" %></textarea>
+        <textarea maxlength="5000" name="blogContent" id="blogContent" required="true"><%= typeof body !== "undefined" ? body : "" %></textarea>
         <br>
         <% if(typeof isEditing !== "undefined") { %>
           <input type="hidden" value="<%= blogId %>" name="blogId">

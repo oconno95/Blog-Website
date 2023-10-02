@@ -12,7 +12,7 @@
   * Routes
     * User
       * Create
-      * Profile
+      * Edit Profile
       * Login
       * Delete
     * Blog
@@ -25,6 +25,8 @@
       * Groups
         * Create
         * Move Blog
+        * Edit
+        * Delete
       * Comment
         * Create
         * Edit

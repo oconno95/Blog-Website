@@ -3,8 +3,8 @@
   <%- include('../partials/head.ejs', {title: "Bloggy: Edit Account"}); %>
   <body>
     <div class="userItems">
-        <h1>Login</h1>
-        <b>Current Username<%= username %></b>
+        <h1>Edit Profile</h1>
+        <b>Current Username: <%= username %></b>
         <br>
         <form action="/user/edit" method="post">
             <label for="new_username">New Username:</label>
@@ -21,7 +21,7 @@
             <input type="password" id="confirm_new_password" name="confirm_new_password" required="false">
             <br><br>
 
-            <label for="password">Write Current Password to Confirm Changes:</label>
+            <label for="password">Old Password:</label>
             <br>
             <input type="password" id="password" name="password" required="true">
             <br>

@@ -7,7 +7,7 @@
       <form action="<%= (typeof isEditing !== "undefined" && isEditing) ? "/blog/group/edit" : "/blog/group/create" %>" method="post">
         <label for="groupName">Group Name:</label>
         <br>
-        <input type="text" id="groupName" name="groupName" required="true" value="<%= typeof groupName !== "undefined" ? groupName : "" %>">
+        <input maxlength="100" type="text" id="groupName" name="groupName" required="true" value="<%= typeof groupName !== "undefined" ? groupName : "" %>">
         <br>
         <input class="button" type="submit" value="Create Blog Group">
       </form>
