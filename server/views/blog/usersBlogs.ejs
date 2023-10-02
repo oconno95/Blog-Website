@@ -16,7 +16,9 @@
     
     <div class="blogView">
       <!-- Displays the blog groups -------------------------------------------------------------------------------------------------------- -->
-      <h1>Blog Groups</h1>
+      <% if(BlogGroup.length != 0) { %>
+        <h1>Blog Groups</h1>
+      <% } %>
       <% for(var group of BlogGroup) { %>
         <div class="blogGroup">
           <div class="titleLine">
@@ -73,40 +75,42 @@
       <% } %>
 
       <!-- Displays the blogs -------------------------------------------------------------------------------------------------------------- -->
-      <h1>Blogs</h1>
-      <% for(var row of BlogData) { %>
-        <% if(row.groupname == null) { %>
-          <div class="blogRow">
-            <div class="titleLine">
-              <h2><a href="/blog/id/<%= row.id %>">  <%= row.title %>  </a></h2>
-              <% if(hasOwnProperty("User") && Account == row.user) { %> 
-                <div class="smallButtons">
-                  <form action="/blog/group/move" method="post">
-                    <label for="groups">Move to a Group:</label>
-                    <select id="groups" name="groups">
-                      <option value="none" selected disabled hidden>Select a Group</option>
-                      <% for(var groups of BlogGroup) { %>
-                        <option value="<%= groups.groupname %>"><%= groups.groupname %></option>
-                      <% } %>
-                    </select>
-                    <input type="hidden" name="blogId" value="<%= row.id %>">
-                    <input type="submit" value="Move">
-                  </form>
-                  <a href="/blog/edit?blogId=<%= row.id %>">
-                    <button>Edit</button>
-                  </a>
-                  <form action="/blog/delete" method="post">
-                    <input type="hidden" name="blogId" value="<%= row.id %>">
-                    <button>Delete</button>
-                  </form>
-                </div>
-              <% } %>
-            </div>
-            <i id="blogDate<%= row.id %>"><%= row.date_utc %></i>
-            <br>
-            <p><%= row.body %></p>
+      <% const unsortedBlogs = BlogData.filter((blogRow) => blogRow.group_id == null) %>
+
+      <% if(unsortedBlogs.length != 0) { %>
+        <h1>Blogs</h1>
+      <% } %>
+      <% for(var row of unsortedBlogs) { %>
+        <div class="blogRow">
+          <div class="titleLine">
+            <h2><a href="/blog/id/<%= row.id %>">  <%= row.title %>  </a></h2>
+            <% if(hasOwnProperty("User") && Account == row.user) { %> 
+              <div class="smallButtons">
+                <form action="/blog/group/move" method="post">
+                  <label for="groups">Move to a Group:</label>
+                  <select id="groups" name="groups">
+                    <option value="none" selected disabled hidden>Select a Group</option>
+                    <% for(var groups of BlogGroup) { %>
+                      <option value="<%= groups.groupname %>"><%= groups.groupname %></option>
+                    <% } %>
+                  </select>
+                  <input type="hidden" name="blogId" value="<%= row.id %>">
+                  <input type="submit" value="Move">
+                </form>
+                <a href="/blog/edit?blogId=<%= row.id %>">
+                  <button>Edit</button>
+                </a>
+                <form action="/blog/delete" method="post">
+                  <input type="hidden" name="blogId" value="<%= row.id %>">
+                  <button>Delete</button>
+                </form>
+              </div>
+            <% } %>
           </div>
-        <% } %>
+          <i id="blogDate<%= row.id %>"><%= row.date_utc %></i>
+          <br>
+          <p><%= row.body %></p>
+        </div>
       <% } %>
 
     </div>

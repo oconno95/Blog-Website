@@ -47,10 +47,11 @@
         </form>
         <br>
       <% } %>
-      <h1>Comments</h1>
+      <!-- Displays the Comments --------------------------------------------------------------------------------------------------------- -->
+      <% if(CommentData.length != 0) { %>
+        <h1>Comments</h1>
+      <% } %>
     </div>
-
-    <!-- Displays the Comments ----------------------------------------------------------------------------------------------------------- -->
     <div class="blogView">
       <% for(var row of CommentData) { %>
         <% var userIsCommenter = hasOwnProperty("User") && User == row.commenter; %>
