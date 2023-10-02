@@ -172,3 +172,11 @@ select {
     padding: 2px 7px;
     border-radius: 5px;
 }
+
+/* View a Group -------------------------------------------------- */
+
+.titleLine {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
