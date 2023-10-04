@@ -32,14 +32,15 @@
         <br>
         <hr width="100%" color="red" size="4px"/>
         <br>
-        <form action="/user/delete" method="post">
+        <form id="delete-account-form" action="/user/delete" method="post">
           <label for="password">Confirm Password:</label>
           <br>
           <input type="password" id="password" name="password" required="true">
           <br>
           <small><%= hasOwnProperty("err") ? err : "" %></small>
-          <input type="submit" value="Delete Account">
+          <input onclick="confirmBeforeSubmitListener('delete-account-form', 'Are you sure you want to delete your account?')" type="submit" value="Delete Account">
       </form>
     </div>
+    <script src="/js/are-you-sure.js"></script>
   </body>
 </html>
