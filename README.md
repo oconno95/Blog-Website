@@ -18,10 +18,12 @@
     * Blog
       * View a users blogs
       * View a blog by id
-      * Search
       * Create
       * Edit
       * Delete
+      * Search
+        * by blog
+        * by user
       * Groups
         * Create
         * Move Blog
