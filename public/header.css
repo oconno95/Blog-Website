@@ -9,12 +9,15 @@
     vertical-align: middle;
     overflow: hidden;
 }
+
+.header .title * {
+    display: inline-block;
+    text-decoration: none;
+    overflow: visible;
+    color: black;
+    margin: auto 0; /* Center text vertically */
+}
 .header .search_blog {
     display: inline-block;
     margin: auto 0; /* center search bar vertically */
-}
-.header .title {
-    text-decoration: none;
-    color: black;
-    margin: auto 0; /* Center text vertically */
 }
