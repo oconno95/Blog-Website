@@ -10,7 +10,6 @@
         <% if(hasOwnProperty("User") && User == blog.user) { %> 
           <div class="smallButtons">
             <form action="/blog/group/move" method="post">
-              <label for="groups">Move to a Group:</label>
               <select id="groups" name="groups">
                 <option value="none" selected disabled hidden>Select a Group</option>
                 <% for(var groups of BlogGroup) { %>
@@ -23,9 +22,13 @@
             <a href="/blog/edit?blogId=<%= blog.id %>">
               <button>Edit</button>
             </a>
-            <form action="/blog/delete" method="post">
+            <form id="delete-post-<%= blog.id %>" action="/blog/delete" method="post">
               <input type="hidden" name="blogId" value="<%= blog.id %>">
-              <button>Delete</button>
+              <button 
+                onclick="confirmBeforeSubmitListener('delete-post-<%= blog.id %>', 'Are you sure you want to delete this post?')"
+              >
+                Delete
+              </button>
             </form>
           </div>
         <% } %> 

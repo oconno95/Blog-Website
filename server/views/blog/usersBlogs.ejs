@@ -23,25 +23,24 @@
         <div class="blogGroup">
           <div class="titleLine">
             <h2><%= group.groupname %></h2>
-            <div class="smallButtons">
-              <a href="/blog/group/edit?groupname=<%= group.groupname %>"><button>Edit</button></a>
-              <form id="delete-group-<%= group.groupname %>" action="/blog/group/delete" method="post">
-                <input 
-                  type="submit" 
-                  value="Delete"
-                  onclick="confirmBeforeSubmitListener(
-                    'delete-group-<%= group.groupname %>', 
-                    'Are you sure you want to delete group <%= group.groupname %>?'
-                  )"
-                >
-                <input type="hidden" value="<%= group.groupname %>" name="groupname">
-
-                <input type="radio" id="keep" name="keepBlogs" value='true' checked>
-                <label for="user">Keep Blogs</label>
-                <input type="radio" id="no-keep" name="keepBlogs" value="false">
-                <label for="title">Delete Blogs</label>
-              </form>
-            </div>
+            <% if(hasOwnProperty("User") && Account == group.username) { %> 
+              <div class="smallButtons">
+                <a href="/blog/group/edit?groupname=<%= group.groupname %>"><button>Edit</button></a>
+                <form id="delete-group-<%= group.groupname %>" action="/blog/group/delete" method="post">
+                  <input 
+                    type="submit" 
+                    value="Delete"
+                    onclick="confirmBeforeSubmitListener(
+                      'delete-group-<%= group.groupname %>', 'Are you sure you want to delete group <%= group.groupname %>?')"
+                  >
+                  <input type="hidden" value="<%= group.groupname %>" name="groupname">
+                  <input type="radio" id="keep" name="keepBlogs" value='true' checked>
+                  <label for="user">Keep Blogs</label>
+                  <input type="radio" id="no-keep" name="keepBlogs" value="false">
+                  <label for="title">Delete Blogs</label>
+                </form>
+              </div>
+            <% } %>
           </div>
           
           <% for(var row of BlogData) { %>
@@ -52,7 +51,6 @@
                   <% if(hasOwnProperty("User") && Account == row.user) { %> 
                     <div class="smallButtons">
                       <form action="/blog/group/move" method="post">
-                        <label for="groups">Move to a Group:</label>
                         <select id="groups" name="groups">
                           <option value="none" selected disabled hidden>Select a Group</option>
                           <% for(var groups of BlogGroup) { %>
@@ -98,7 +96,6 @@
             <% if(hasOwnProperty("User") && Account == row.user) { %> 
               <div class="smallButtons">
                 <form action="/blog/group/move" method="post">
-                  <label for="groups">Move to a Group:</label>
                   <select id="groups" name="groups">
                     <option value="none" selected disabled hidden>Select a Group</option>
                     <% for(var groups of BlogGroup) { %>

@@ -9,7 +9,7 @@ const {db} = require(path.resolve(process.cwd(), "./server/utils/database.js"));
 //View a users blogs ---------------------------------------------------------------------------------------------------------------------------------------------------------------------
 router.get("/", async (req, res) => {
   const username = req.session.username;
-  const [groups, items] = await db.query("SELECT groupname FROM BlogGroup WHERE username=? ORDER BY groupName desc", [username]);
+  const [groups, items] = await db.query("SELECT * FROM BlogGroup WHERE username=? ORDER BY groupName desc", [username]);
   const [rows, fields] = await db.query("SELECT BP.*, (SELECT groupname FROM BlogGroup AS BG WHERE BG.id=BP.group_id) AS groupname FROM BlogPost AS BP WHERE user=? ORDER BY date_utc desc", [username]);
   console.log(groups);
   console.log(rows);
@@ -18,7 +18,7 @@ router.get("/", async (req, res) => {
 
 router.get("/user/:user", async (req, res) => {
   const username = req.params.user;
-  const [groups, items] = await db.query("SELECT groupname FROM BlogGroup WHERE username=? ORDER BY groupName desc", [username]);
+  const [groups, items] = await db.query("SELECT * FROM BlogGroup WHERE username=? ORDER BY groupName desc", [username]);
   const [rows, fields] = await db.query("SELECT BP.*, (SELECT groupname FROM BlogGroup AS BG WHERE BG.id=BP.group_id) AS groupname FROM BlogPost AS BP WHERE user=? ORDER BY date_utc desc", [username]);
   console.log(groups);
   console.log(rows);
@@ -41,7 +41,6 @@ router.get("/id/:id", async (req, res) => {
   const username = req.session.username;
   const [groups, items] = await db.query("SELECT groupname FROM BlogGroup WHERE username=? ORDER BY groupName desc", [username]);
   //use rows[0] because there should only ever be 1 element when asking for an existing blog post
-
   res.render("blog/view.ejs", {blog: rows[0], User: username, CommentData: comments, editCommentId: editCommentId, BlogGroup: groups});
 });
 
@@ -54,7 +53,8 @@ router.get("/create", async (req, res) => {
 router.post("/create", async (req, res) => {
   const {title, blogContent, group_id} = req.body;
   try {
-    let [result, fields] = await db.query("INSERT INTO BlogPost(user, date_utc, title, body, group_id) VALUES (?,NOW(),?,?,?)", [req.session.username, title, blogContent, group_id ? group_id : null]);
+    let [result, fields] = await db.query("INSERT INTO BlogPost(user, date_utc, title, body, group_id) VALUES (?,NOW(),?,?,?)",
+      [req.session.username, title, blogContent, group_id ? group_id : null]);
     res.redirect(`/blog/id/${result.insertId}`);
   }
   catch(e) {
@@ -87,7 +87,8 @@ router.post("/edit", async (req, res) => {
   let blogId = req.body.blogId;
 
   //returns [ResultSetHeader, undefined] for UPDATE SQL statements
-  let [resultHeader, fields] = await db.query("UPDATE BlogPost SET title=?, body=?, group_id=? WHERE id=? AND user=?", [title, blogContent, group_id ? group_id : null, blogId, req.session.username]);
+  let [resultHeader, fields] = await db.query("UPDATE BlogPost SET title=?, body=?, group_id=? WHERE id=? AND user=?",
+    [title, blogContent, group_id ? group_id : null, blogId, req.session.username]);
   
   if(resultHeader.affectedRows == 0) {
     return res.send("Failed to edit post");
@@ -106,8 +107,7 @@ router.post("/delete", async (req, res) => {
   if(resultHeader.affectedRows == 0) {
     return res.send("Failed to delete post");
   }
-
-  res.send("Blog Post Deleted!");
+  res.redirect("/blog");
 });
 
 
@@ -119,7 +119,8 @@ router.get("/search", async (req, res) => {
     return;
   } 
 
-  const [rows, fields] = await db.query(`SELECT * FROM BlogPost WHERE title LIKE CONCAT('%',?,'%') OR group_id IN (SELECT id FROM BlogGroup WHERE groupname LIKE CONCAT('%',?,'%'))`, [req.query.search_query, req.query.search_query]);
+  const [rows, fields] = await db.query(`SELECT * FROM BlogPost WHERE title LIKE CONCAT('%',?,'%') OR group_id IN (SELECT id FROM BlogGroup WHERE groupname LIKE CONCAT('%',?,'%'))`,
+    [req.query.search_query, req.query.search_query]);
   res.render("blog/search_results", {rows: rows});
 });
 
