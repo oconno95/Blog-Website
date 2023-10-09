@@ -38,7 +38,6 @@
     * ejs
     * express
     * express-session
-    * multer
 * Database - MySQL
   * User
   * BlogGroup
