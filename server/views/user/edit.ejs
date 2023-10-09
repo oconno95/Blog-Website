@@ -7,27 +7,27 @@
         <b>Current Username: <%= username %></b>
         <br>
         <form action="/user/edit" method="post">
-            <label for="new_username">New Username:</label>
-            <br>
-            <input type="text" id="new_username" name="new_username" required="false">
-            <br><br>
+          <label for="new_username">New Username:</label>
+          <br>
+          <input type="text" id="new_username" name="new_username" required="false">
+          <br><br>
 
-            <label for="new_password">New Password:</label>
-            <br>
-            <input type="password" id="new_password" name="new_password" required="false">
-            <br>
-            <label for="confirm_new_password">Confirm New Password:</label>
-            <br>
-            <input type="password" id="confirm_new_password" name="confirm_new_password" required="false">
-            <br><br>
+          <label for="new_password">New Password:</label>
+          <br>
+          <input type="password" id="new_password" name="new_password" required="false">
+          <br>
+          <label for="confirm_new_password">Confirm New Password:</label>
+          <br>
+          <input type="password" id="confirm_new_password" name="confirm_new_password" required="false">
+          <br><br>
 
-            <label for="password">Old Password:</label>
-            <br>
-            <input type="password" id="password" name="password" required="true">
-            <br>
-            <small><%= hasOwnProperty("err") ? err : "" %></small>
-            <br>
-            <input type="submit" value="Apply Changes">
+          <label for="password">Old Password:</label>
+          <br>
+          <input type="password" id="password" name="password" required="true">
+          <br>
+          <small><%= hasOwnProperty("err") ? err : "" %></small>
+          <br>
+          <input type="submit" value="Apply Changes">
         </form>
         <br>
         <hr width="100%" color="red" size="4px"/>

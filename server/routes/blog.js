@@ -40,8 +40,13 @@ router.get("/id/:id", async (req, res) => {
   const [comments, elements] = await db.query("SELECT * FROM BlogComment WHERE blog_id=?", [blogId]);
   const username = req.session.username;
   const [groups, items] = await db.query("SELECT groupname FROM BlogGroup WHERE username=? ORDER BY groupName desc", [username]);
-  //use rows[0] because there should only ever be 1 element when asking for an existing blog post
-  res.render("blog/view.ejs", {blog: rows[0], User: username, CommentData: comments, editCommentId: editCommentId, BlogGroup: groups});
+  if (rows.length == 1) {
+    //use rows[0] because there should only ever be 1 element when asking for an existing blog post
+    res.render("blog/view.ejs", {blog: rows[0], User: username, CommentData: comments, editCommentId: editCommentId, BlogGroup: groups});
+  }
+  else {
+    res.send("No blog post with that id!");
+  }
 });
 
 //Create a blog --------------------------------------------------------------------------------------------------------------------------------------------------------------------------

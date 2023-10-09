@@ -25,14 +25,14 @@
             <form id="delete-post-<%= blog.id %>" action="/blog/delete" method="post">
               <input type="hidden" name="blogId" value="<%= blog.id %>">
               <button 
-                onclick="confirmBeforeSubmitListener('delete-post-<%= blog.id %>', 'Are you sure you want to delete this post?')"
-              >
+                onclick="confirmBeforeSubmitListener('delete-post-<%= blog.id %>', 'Are you sure you want to delete this post?')">
                 Delete
               </button>
             </form>
           </div>
         <% } %> 
       </div>
+      <h3><%= blog.user %></h3>
       <i id="blogDate<%= blog.id %>"><%= blog.date_utc %></i>
       <br><br>
       <p><%= blog.body %></p>
