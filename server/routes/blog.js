@@ -115,18 +115,4 @@ router.post("/delete", async (req, res) => {
   res.redirect("/blog");
 });
 
-
-//Search ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-router.get("/search", async (req, res) => {
-  if(req.query.filter_by === 'user') {
-    const [rows, fields] = await db.query(`SELECT * FROM User WHERE username LIKE CONCAT('%',?,'%')`, [req.query.search_query]);
-    res.render("blog/search_results_user", {rows: rows});
-    return;
-  } 
-
-  const [rows, fields] = await db.query(`SELECT * FROM BlogPost WHERE title LIKE CONCAT('%',?,'%') OR group_id IN (SELECT id FROM BlogGroup WHERE groupname LIKE CONCAT('%',?,'%'))`,
-    [req.query.search_query, req.query.search_query]);
-  res.render("blog/search_results", {rows: rows});
-});
-
 module.exports = router;

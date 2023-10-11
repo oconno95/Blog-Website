@@ -21,9 +21,6 @@
       * Create
       * Edit
       * Delete
-      * Search
-        * by blog
-        * by user
       * Groups
         * Create
         * Move Blog
@@ -33,6 +30,9 @@
         * Create
         * Edit
         * Delete
+    * Search
+      * by blog
+      * by user
   * Dependencies
     * mysql2
     * ejs

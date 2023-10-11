@@ -52,6 +52,21 @@ app.get("/", (req, res) => {
   res.render("home.ejs", {username: req.session.username});
 });
 
+//Search
+app.get("/search", async (req, res) => {
+  if(req.query.filter_by === 'user') {
+    const [rows, fields] = await db.query(`SELECT * FROM User WHERE username LIKE CONCAT('%',?,'%')`, [req.query.search_query]);
+    res.render("search/search_results_user", {rows: rows});
+    return;
+  } 
+  else {
+    const [rows, fields] = await db.query
+      (`SELECT * FROM BlogPost WHERE title LIKE CONCAT('%',?,'%') OR group_id IN (SELECT id FROM BlogGroup WHERE groupname LIKE CONCAT('%',?,'%'))`,
+      [req.query.search_query, req.query.search_query]);
+    res.render("search/search_results_blog", {rows: rows});
+  }
+});
+
 app.use('/user', userRoute);
 app.use('/blog', blogRoute);
 app.use('/blog/comment', commentRoute);
