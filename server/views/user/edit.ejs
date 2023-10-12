@@ -9,17 +9,20 @@
         <form action="/user/edit" method="post">
           <label for="new_username">New Username:</label>
           <br>
-          <input type="text" id="new_username" name="new_username" required="false">
+          <input type="text" id="new_username" name="new_username">
           <br><br>
 
           <label for="new_password">New Password:</label>
           <br>
-          <input type="password" id="new_password" name="new_password" required="false">
+          <input type="password" id="new_password" name="new_password">
           <br>
           <label for="confirm_new_password">Confirm New Password:</label>
           <br>
-          <input type="password" id="confirm_new_password" name="confirm_new_password" required="false">
+          <input type="password" id="confirm_new_password" name="confirm_new_password">
           <br><br>
+
+          <label for="about">New Profile Description</label>
+          <textarea maxlength="500" name="about" id="about"><%= hasOwnProperty("about") ? about : "" %></textarea>
 
           <label for="password">Old Password:</label>
           <br>

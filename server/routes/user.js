@@ -114,7 +114,7 @@ router.get("/create", (req, res) => {
 });
 
 router.post("/create", async (req, res) => {
-  const {username, password1, password2} = req.body;
+  const {username, password1, password2, about} = req.body;
 
   //INPUT VALIDATION 
   let errors = {};
@@ -139,6 +139,7 @@ router.post("/create", async (req, res) => {
       username: username,
       password1: password1,
       password2: password2,
+      about: about,
       errors: errors
     });
   } 
@@ -151,7 +152,7 @@ router.post("/create", async (req, res) => {
   //Add user to database
   try {
     //must store salt for login to work
-    await db.query("INSERT INTO User(username, pwd, pwd_salt, about) VALUES (?,?,?,'')", [username, hash, salt]);
+    await db.query("INSERT INTO User(username, pwd, pwd_salt, about) VALUES (?,?,?,?)", [username, hash, salt, about.trim()]);
 
     //automatically login the new user
     await login(username, req.session);
@@ -176,11 +177,13 @@ router.post("/create", async (req, res) => {
 });
 
 router.get("/edit", async (req, res) => {
-  res.render("user/edit.ejs", {username: req.session.username});
+  const [rows, _] = await db.query("SELECT about FROM User WHERE username=?", [req.session.username]);
+
+  res.render("user/edit.ejs", {username: req.session.username, about: rows[0].about});
 });
 
 router.post("/edit", async (req, res) => {
-  let {new_username, new_password, confirm_new_password, password} = req.body;
+  let {new_username, new_password, confirm_new_password, password, about} = req.body;
 
   new_username = new_username.trim();
   new_password = new_password.trim();
@@ -188,7 +191,7 @@ router.post("/edit", async (req, res) => {
 
   const changedUsername = new_username != "";
 
-  let renderErr = (err) => res.render("user/edit.ejs", {username: req.session.username, err: err});
+  let renderErr = (err) => res.render("user/edit.ejs", {username: req.session.username, about: about, err: err});
 
   //check if current password is correct
   const [rows, _] = await db.query("SELECT * FROM User WHERE username=?", [req.session.username]);
@@ -204,8 +207,8 @@ router.post("/edit", async (req, res) => {
     return renderErr("Your username must be 10 characters or less!");
   }
 
-  let args = [new_username];
-  let query = "UPDATE User SET username=?";
+  let args = [new_username, about];
+  let query = "UPDATE User SET username=?, about=?";
 
   if(new_password) {
     if(confirm_new_password !== new_password) {

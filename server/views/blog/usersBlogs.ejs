@@ -12,6 +12,12 @@
         <button>Create a Blog Group</button>
       </a>
      </div>
+    <% } else { %>
+      <div style="border: 1px solid black; margin: 0.5em; padding: 1em 2em">
+        <h1><%= User %>'s Blogs</h1>
+        <i style="word-wrap: break-word;"><%= UserAbout %></i>
+      </div>
+      
     <% } %>
     
     <div class="blogView">
