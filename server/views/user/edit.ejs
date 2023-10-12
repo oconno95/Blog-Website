@@ -9,17 +9,20 @@
         <form action="/user/edit" method="post">
           <label for="new_username">New Username:</label>
           <br>
-          <input type="text" id="new_username" name="new_username" required="false">
+          <input type="text" id="new_username" name="new_username">
           <br><br>
 
           <label for="new_password">New Password:</label>
           <br>
-          <input type="password" id="new_password" name="new_password" required="false">
+          <input type="password" id="new_password" name="new_password">
           <br>
           <label for="confirm_new_password">Confirm New Password:</label>
           <br>
-          <input type="password" id="confirm_new_password" name="confirm_new_password" required="false">
+          <input type="password" id="confirm_new_password" name="confirm_new_password">
           <br><br>
+
+          <label for="about">New Profile Description</label>
+          <textarea maxlength="500" name="about" id="about"><%= hasOwnProperty("about") ? about : "" %></textarea>
 
           <label for="password">Old Password:</label>
           <br>
@@ -33,14 +36,27 @@
         <hr width="100%" color="red" size="4px"/>
         <br>
         <form id="delete-account-form" action="/user/delete" method="post">
-          <label for="password">Confirm Password:</label>
-          <br>
-          <input type="password" id="password" name="password" required="true">
+          <input type="hidden" id="delete-account-password" name="password" value="">
           <br>
           <small><%= hasOwnProperty("err") ? err : "" %></small>
-          <input onclick="confirmBeforeSubmitListener('delete-account-form', 'Are you sure you want to delete your account?')" type="submit" value="Delete Account">
+          <input onclick="confirmDeleteAccount()" type="submit" value="Delete Account">
       </form>
     </div>
-    <script src="/js/are-you-sure.js"></script>
+    <!--<script src="/js/are-you-sure.js"></script>-->
+    <script>
+      const form = document.getElementById("delete-account-form");
+      const passwordElement = document.getElementById("delete-account-password");
+      
+      function confirmDeleteAccount() {
+        form.onsubmit = (e) => e.preventDefault();
+        let password = prompt("Type password to delete account. This action cannot be undone!");
+        
+        //if user did not click cancel
+        if(password !== null) {
+          passwordElement.value = password;
+          form.submit();
+        }
+      }
+    </script>
   </body>
 </html>

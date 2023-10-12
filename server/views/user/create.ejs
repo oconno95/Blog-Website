@@ -30,7 +30,7 @@
             <br>
             <label for="about">About Me:</label>
             <br>
-            <textarea id="about" name="about" maxlength="500"></textarea>
+            <textarea id="about" name="about" maxlength="500"><%= hasOwnProperty("about") ? about : "" %></textarea>
             <br>
             <input type="submit" value="Create Account">
         </form>

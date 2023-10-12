@@ -9,20 +9,18 @@ const {db} = require(path.resolve(process.cwd(), "./server/utils/database.js"));
 //View a users blogs ---------------------------------------------------------------------------------------------------------------------------------------------------------------------
 router.get("/", async (req, res) => {
   const username = req.session.username;
-  const [userdata, data] = await db.query("SELECT * FROM user WHERE username=?", [username]);
+  const [user, _] = await db.query("SELECT about FROM User WHERE username=?", [username]);
   const [groups, items] = await db.query("SELECT * FROM BlogGroup WHERE username=? ORDER BY groupName desc", [username]);
   const [rows, fields] = await db.query("SELECT BP.*, (SELECT groupname FROM BlogGroup AS BG WHERE BG.id=BP.group_id) AS groupname FROM BlogPost AS BP WHERE user=? ORDER BY date_utc desc", [username]);
-  res.render("blog/usersBlogs.ejs", {BlogGroup: groups, BlogData: rows, User: username, About: userdata[0].about, Account: req.session.username});
+  res.render("blog/usersBlogs.ejs", {BlogGroup: groups, BlogData: rows, User: username, UserAbout: user[0].about, Account: req.session.username});
 });
 
 router.get("/user/:user", async (req, res) => {
   const username = req.params.user;
-  const [userdata, data] = await db.query("SELECT * FROM user WHERE username=?", [username]);
+  const [user, _] = await db.query("SELECT about FROM User WHERE username=?", [username]);
   const [groups, items] = await db.query("SELECT * FROM BlogGroup WHERE username=? ORDER BY groupName desc", [username]);
   const [rows, fields] = await db.query("SELECT BP.*, (SELECT groupname FROM BlogGroup AS BG WHERE BG.id=BP.group_id) AS groupname FROM BlogPost AS BP WHERE user=? ORDER BY date_utc desc", [username]);
-  console.log('username: ', username);
-  console.log('req.session.username: ', req.session.username);
-  res.render("blog/usersBlogs.ejs", {BlogGroup: groups, BlogData: rows, User: username, About: userdata[0].about, Account: req.session.username});
+  res.render("blog/usersBlogs.ejs", {BlogGroup: groups, BlogData: rows, User: username, UserAbout: user[0].about, Account: req.session.username});
 });
 
 //View a blog by id ----------------------------------------------------------------------------------------------------------------------------------------------------------------------
