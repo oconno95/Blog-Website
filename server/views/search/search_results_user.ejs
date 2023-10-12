@@ -5,12 +5,12 @@
     <h1>‎ ‎ Search Results: Users</h1>
     <div class="blogView">
       <% for(var row of rows) { %>
-          <div class="blogRow">
-            <!-- Append row.id to URL so that the user can be redirected to the correct blog post -->
-            <h2><a href="/blog/user/<%= row.username %>">  <%= row.username %>  </a></h2>
-              <i><%= row.about %></i>
-          </div>
+        <div class="blogRow">
+          <!-- Append row.id to URL so that the user can be redirected to the correct blog post -->
+          <h2><a href="/blog/user/<%= row.username %>">  <%= row.username %>  </a></h2>
+          <i><%= row.about %></i>
+        </div>
       <% } %>
-  </div>
+    </div>
   </body>
 </html>

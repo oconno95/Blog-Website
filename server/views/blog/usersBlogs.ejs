@@ -15,6 +15,14 @@
     <% } %>
     
     <div class="blogView">
+      <!-- Displays the About Me ----------------------------------------------------------------------------------------------------------- -->
+      <% if(hasOwnProperty("About") && About != "") { %>
+        <div class="blogRow">
+          <h3>About Me:</h3>
+          <p><%= About %></p>
+        </div>
+      <% } %>
+      
       <!-- Displays the blog groups -------------------------------------------------------------------------------------------------------- -->
       <% if(BlogGroup.length != 0) { %>
         <h1>Blog Groups</h1>

@@ -5,14 +5,14 @@
     <h1>‎ ‎ Search Results: Blogs</h1>
     <div class="blogView">
       <% for(var row of rows) { %>
-          <div class="blogRow">
-            <!-- Append row.id to URL so that the user can be redirected to the correct blog post -->
-            <h2><a href="/blog/id/<%= row.id %>">  <%= row.title %>  </a></h2>
-            <h3><%= row.user %></h3>  
-            <i id="blogDate<%= row.id %>"><%= row.date_utc %></i>
-              <br>
-              <p><%= row.body %></p>
-          </div>
+        <div class="blogRow">
+          <!-- Append row.id to URL so that the user can be redirected to the correct blog post -->
+          <h2><a href="/blog/id/<%= row.id %>">  <%= row.title %>  </a></h2>
+          <h3><%= row.user %></h3>  
+          <i id="blogDate<%= row.id %>"><%= row.date_utc %></i>
+          <br>
+          <p><%= row.body %></p>
+        </div>
       <% } %>
     </div>
     <script src="/js/date_localization.js"></script>

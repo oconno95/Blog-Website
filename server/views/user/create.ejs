@@ -28,6 +28,10 @@
             <br>
             <small><%= (hasOwnProperty("errors") && errors.hasOwnProperty("password_retype_err")) ? errors.password_retype_err : "" %></small>
             <br>
+            <label for="about">About Me:</label>
+            <br>
+            <textarea id="about" name="about" maxlength="500"></textarea>
+            <br>
             <input type="submit" value="Create Account">
         </form>
     </div>

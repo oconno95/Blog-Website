@@ -82,6 +82,8 @@ function logout(session) {
   session.destroy();
 }
 
+
+//Login --------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 router.get("/login", (req, res) => {
   res.render("user/login.ejs");
 });
@@ -97,11 +99,11 @@ router.post("/login", async (req, res) => {
     return res.render("user/login.ejs");
   }
   
-
   //redirect to home page
   res.redirect("/");
 });
 
+//Logout -------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 router.post("/logout", async (req, res) => {
   logout(req.session);
 
@@ -113,8 +115,9 @@ router.get("/create", (req, res) => {
   res.render("user/create.ejs");
 });
 
+//Create --------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 router.post("/create", async (req, res) => {
-  const {username, password1, password2} = req.body;
+  const {username, password1, password2, about} = req.body;
 
   //INPUT VALIDATION 
   let errors = {};
@@ -137,6 +140,7 @@ router.post("/create", async (req, res) => {
   if(errorFound) {
     return res.render("user/create.ejs", {
       username: username,
+      about: about,
       password1: password1,
       password2: password2,
       errors: errors
@@ -151,7 +155,7 @@ router.post("/create", async (req, res) => {
   //Add user to database
   try {
     //must store salt for login to work
-    await db.query("INSERT INTO User(username, pwd, pwd_salt, about) VALUES (?,?,?,'')", [username, hash, salt]);
+    await db.query("INSERT INTO User(username, pwd, pwd_salt, about) VALUES (?,?,?,?)", [username, hash, salt, about]);
 
     //automatically login the new user
     await login(username, req.session);
@@ -175,6 +179,8 @@ router.post("/create", async (req, res) => {
 
 });
 
+
+//Edit ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 router.get("/edit", async (req, res) => {
   res.render("user/edit.ejs", {username: req.session.username});
 });
@@ -196,7 +202,6 @@ router.post("/edit", async (req, res) => {
   if(hashedPassword !== rows[0].pwd) {
     return renderErr("Incorrect current password!");
   }
-
 
   if(!changedUsername) {
     new_username = req.session.username;
@@ -235,6 +240,7 @@ router.post("/edit", async (req, res) => {
   res.redirect("/");
 });
 
+//Delete --------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 router.post("/delete", async (req, res) => {
   let {password} = req.body;
 
