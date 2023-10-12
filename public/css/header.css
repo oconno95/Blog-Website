@@ -10,13 +10,19 @@
     overflow: hidden;
 }
 
+.header .title {
+    margin: auto 0; /* Center title to header vertically */
+}
 .header .title * {
     display: inline-block;
     text-decoration: none;
     overflow: visible;
     color: black;
     margin: auto 0; /* Center text vertically */
+    padding: 0 10px; /* Keep horizontal space between elements */
 }
+
+
 .header .search_blog {
     display: inline-block;
     margin: auto 0; /* center search bar vertically */
