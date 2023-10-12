@@ -36,14 +36,27 @@
         <hr width="100%" color="red" size="4px"/>
         <br>
         <form id="delete-account-form" action="/user/delete" method="post">
-          <label for="password">Confirm Password:</label>
-          <br>
-          <input type="password" id="password" name="password" required="true">
+          <input type="hidden" id="delete-account-password" name="password" value="">
           <br>
           <small><%= hasOwnProperty("err") ? err : "" %></small>
-          <input onclick="confirmBeforeSubmitListener('delete-account-form', 'Are you sure you want to delete your account?')" type="submit" value="Delete Account">
+          <input onclick="confirmDeleteAccount()" type="submit" value="Delete Account">
       </form>
     </div>
-    <script src="/js/are-you-sure.js"></script>
+    <!--<script src="/js/are-you-sure.js"></script>-->
+    <script>
+      const form = document.getElementById("delete-account-form");
+      const passwordElement = document.getElementById("delete-account-password");
+      
+      function confirmDeleteAccount() {
+        form.onsubmit = (e) => e.preventDefault();
+        let password = prompt("Type password to delete account. This action cannot be undone!");
+        
+        //if user did not click cancel
+        if(password !== null) {
+          passwordElement.value = password;
+          form.submit();
+        }
+      }
+    </script>
   </body>
 </html>
