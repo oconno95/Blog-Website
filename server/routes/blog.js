@@ -17,6 +17,7 @@ router.get("/", async (req, res) => {
 });
 
 router.get("/user/:user", async (req, res) => {
+  console.log(req.params)
   const username = req.params.user;
   const [user, _] = await db.query("SELECT about FROM User WHERE username=?", [username]);
   const [groups, items] = await db.query("SELECT * FROM BlogGroup WHERE username=? ORDER BY groupName desc", [username]);
